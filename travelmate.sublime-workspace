@@ -1,0 +1,666 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"get",
+				"getLocation"
+			],
+			[
+				"s",
+				"toString"
+			],
+			[
+				"sw",
+				"Swipe"
+			],
+			[
+				"tra",
+				"travels"
+			],
+			[
+				"trave",
+				"travelToDelete"
+			],
+			[
+				"page",
+				"pagebeforeshow"
+			],
+			[
+				"link",
+				"link_travelID"
+			],
+			[
+				"pag",
+				"pageID"
+			],
+			[
+				"rend",
+				"rendered"
+			],
+			[
+				"fa",
+				"fakeTravelPage"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"fuc",
+				"function"
+			],
+			[
+				"fake",
+				"fakeTravelPage"
+			],
+			[
+				"re",
+				"render"
+			],
+			[
+				"I",
+				"Itenary"
+			],
+			[
+				"to",
+				"todos_total"
+			],
+			[
+				"da",
+				"date_to"
+			],
+			[
+				"date",
+				"date_from"
+			],
+			[
+				"coun",
+				"country_from"
+			],
+			[
+				"count",
+				"country_to"
+			],
+			[
+				"new",
+				"newTravelObj"
+			],
+			[
+				"lo",
+				"log"
+			],
+			[
+				"pop",
+				"popup"
+			],
+			[
+				"add",
+				"addTravelPopup"
+			],
+			[
+				"thi",
+				"this"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"addT",
+				"addTravelForm"
+			],
+			[
+				"in",
+				"input	Tag"
+			],
+			[
+				"Add",
+				"AddTravel"
+			],
+			[
+				"di",
+				"dialog"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "<html>\n<head>\n	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n	<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> \n	<title>Travels</title> \n	<link rel=\"stylesheet\" href=\"css/jquery.mobile-1.2.0.css\" />\n	<link rel=\"stylesheet\" href=\"css/jquery.mobile.structure-1.2.0.min.css\" />\n	<style>\n		/*** patch for jquerymobile page flicker that was happending ***/\n	    .ui-page {\n	        -webkit-backface-visibility: hidden;\n	    }\n\n	    body {\n            /* Setting body margins to 0 to have proper positioning of #container div */\n            margin: 0;\n        }\n \n            /* #container div with absolute position and 100% width and height so it takes up whole window */\n        #container {\n            position: absolute;\n            width: 100%;\n            height: 100%;\n        }\n	</style>\n	\n	<script type=\"\" src=\"js/jquery-1.8.3.js\"></script>\n\n	<script type=\"text/javascript\" src=\"js/form2js.js\"></script>\n	<script type=\"text/javascript\" src=\"js/jquery.toObject.js\"></script>\n	<script type=\"text/javascript\" src=\"js/transparency.js\"></script>  \n	<script type=\"text/javascript\" src=\"js/phonegap.js\"></script>\n	<script>\n		$(document).bind(\"mobileinit\", function(){\n		  \n		  // setting for no page transitions effects by default\n\n		  $.mobile.transitionFallbacks.slideout = \"none\";\n\n		  // Setting #container div as a jqm pageContainer\n          $.mobile.pageContainer = $('#container');\n\n		  $.mobile.defaultPageTransition = \"none\";\n		  $.mobile.defaultDialogTransition = \"none\";\n		});\n	</script>\n\n	<script src=\"js/jquery.mobile-1.2.0.js\"></script>\n	\n	<script>\n	var model = {};\n	model.travels = {};\n	model.travelID_selected = 0;\n\n	function GetTravels(){\n		//##TODO make real function of travels retreiving\n			var fakeTravels = [\n				{\n					title: \"Travel 1345345\",\n					brief: \"Going to San Fran\",\n					date: \"12.06.19\",\n					link_travelID: \"0\"\n				},\n				{\n					title: \"Travel 2\",\n					brief: \"So here we go\",\n					date: \"22.06.19\",\n					link_travelID: \"1\"\n\n				},\n				{\n					title: \"Travel 3\",\n					brief: \"Sample 13\",\n					date: \"22.06.19\",\n					link_travelID: \"123\"\n				}\n			];\n			return fakeTravels;\n	}\n\n	function AddTravel(newTravelObj){\n		//##TODO make real fuction of travel adding\n		// current function will manipulate the travels global var \n		\n\n		if(!newTravelObj){ console.log('AddTravel: no travel object passed'); return;}\n\n		console.log(newTravelObj);\n		if(!newTravelObj.date)\n			newTravelObj.date = $.now().toString();\n		if (!newTravelObj.brief)\n			newTravelObj.brief = \"it will be a great travel\";\n		\n\n		model.travels.push(newTravelObj);\n		//##TODO add the travel to DB\n\n		RenderTravels();\n	}\n\n	function RenderTravels(){\n		//render in the travels list\n		$('ul#travels-list').render(model.travels);\n	}\n\n	function DeleteTravel(travelToDelete){\n		//##TODO make travel deletion from DB\n		model.travels.splice(travelToDelete,1);\n		RenderTravels();\n	}\n\n	function RenderTravelPage(pageID){\n		//##TODO retreive data from DB to model about the selected travel\n\n		var fakeTravelPage = {}\n		fakeTravelPage[0] = {\n			page_title:\"rendered travel\",\n			country_to:\"Ukraine\",\n			country_from:\"UK\",\n			date_from:\"20/10/13\",\n			date_to:\"30/10/13\",\n			todos_done:\"5\",\n			todos_total:\"40\",\n			itenaries: [\n				{intenary_title:\"Itenary 1\"},\n				{intenary_title:\"Itenary 2\"},\n				{intenary_title:\"Itenary 44\"},\n				{intenary_title:\"Itenary 50\"},\n				{intenary_title:\"Itenary 60\"}\n			]\n		};\n		fakeTravelPage[1] = {\n			page_title:\"some other rendered travel\",\n			country_to:\"USA\",\n			country_from:\"Canada\",\n			date_from:\"21/10/13\",\n			date_to:\"31/10/13\",\n			todos_done:\"35\",\n			todos_total:\"40\",\n			itenaries: [\n				{intenary_title:\"Itenary 1\"},\n				{intenary_title:\"Itenary 2\"}\n			]\n		};\n\n		$('#travelPage').render(fakeTravelPage[pageID]);\n	}\n\n	$('#main-page').live('pagebeforeshow', function(event){\n		\n		// show initial travels list\n		model.travels = GetTravels();\n		RenderTravels();\n\n		// add new travel on form submit\n		$('#addTravelForm').submit(function(event){\n			event.preventDefault();\n			AddTravel($(this).toObject());\n			$('#addTravelPopup').popup('close');\n			return false;\n		});\n\n   		// set the travelID_selected for corresponding travel page rendering\n   		$('a.openTravelPageLink').click(function(event){\n			model.travelID_selected = parseInt($('> .link_travelID', this).text());\n			//##TODO start corresponding travel info loading from DB\n   		});\n\n   		// link long touch event for deleting the travel from the list\n   		$('a.openTravelPageLink').bind('taphold', function(){\n   			if(confirm('Are you sure you want to deete the travel with all the details?')){\n   				var travelToDelete = parseInt($('> .link_travelID', this).text());\n   				DeleteTravel(travelToDelete);\n   			}\n   		});\n\n	});\n 	\n	$('#travelPage').live('pagebeforeshow', function(event){\n		console.log('travelPage init')\n		if(!model.travelID_selected)model.travelID_selected = 0;\n		console.log(model.travelID_selected);\n		RenderTravelPage(model.travelID_selected);\n	});\n\n\n\n// pg.js tests\n\n    var deviceReady = false;\n    \n    //-------------------------------------------------------------------------\n    // Location\n    //-------------------------------------------------------------------------\n    var watchLocationId = null;\n\n    /**\n     * Start watching location\n     */\n    var watchLocation = function() {\n        console.log(\"watchLocation()\");\n\n        // Success callback\n        var success = function(p){\n            document.getElementById('latitude').innerHTML = p.coords.latitude;\n            document.getElementById('longitude').innerHTML = p.coords.longitude;\n        };\n\n        // Fail callback\n        var fail = function(e){\n            console.log(\"watchLocation fail callback with error code \"+e);\n            stopLocation();\n        };\n\n        // Get location\n        watchLocationId = navigator.geolocation.watchPosition(success, fail, {enableHighAccuracy: true});\n        setLocationStatus(\"Running\");\n    };\n\n    /**\n     * Stop watching the location\n     */\n    var stopLocation = function() {\n        setLocationStatus(\"Stopped\");\n        if (watchLocationId) {\n            navigator.geolocation.clearWatch(watchLocationId);\n            watchLocationId = null;\n        }\n    };\n\n    /**\n     * Get current location\n     */\n    var getLocation = function() {\n        console.log(\"getLocation()\");\n\n        // Stop location if running\n        stopLocation();\n\n        // Success callback\n        var success = function(p){\n            document.getElementById('latitude').innerHTML = p.coords.latitude;\n            document.getElementById('longitude').innerHTML = p.coords.longitude;\n            setLocationStatus(\"Done\");d\n        };\n\n        // Fail callback\n        var fail = function(e){\n            console.log(\"getLocation fail callback with error code \"+e.code);\n            setLocationStatus(\"Error: \"+e.code);\n        };\n\n        // Get location\n        navigator.geolocation.getCurrentPosition(success, fail, {enableHighAccuracy: true}); //, {timeout: 10000});\n        setLocationStatus(\"Retrieving location...\");\n\n    };\n\n    /**\n     * Set location status\n     */\n    var setLocationStatus = function(status) {\n        	//document.getElementById('location_status').innerHTML = status;\n    		console.log('!! Location status = '+status);\n    	};\n\n	$(document).bind('deviceready', function(){\n		getLocation();	\n	});\n    // --------------------------------\n\n\n\n	</script>\n</head>\n<body> \n<!-- Main page -->\n<div data-role=\"page\" id=\"main-page\">\n	<div data-role=\"header\" data-position=\"fixed\">\n		<h1>Travels</h1>\n	</div><!-- /header -->\n\n	<!-- Main Page content(travels list). Content will be rendered in dynamically -->\n	<div data-role=\"content\">	\n		<ul id=\"travels-list\" data-role=\"listview\" data-split-theme=\"d\" class=\"ui-listview\">\n			<li>								\n				<a class=\"openTravelPageLink\" href=\"#travelPage\">\n					<h3 class=\"title\"></h3>\n					<p class=\"brief\"></p>\n					<span class=\"ui-li-count ui-btn-up-c date\"></span>\n					<span class=\"link_travelID\" style=\"display:none\"></span>\n				</a>\n			</li>\n		</ul>\n		<a href=\"#addTravelPopup\" data-role=\"button\" data-rel=\"popup\" data-icon=\"plus\">Add Travel</a>\n	</div><!-- /content -->\n	\n	<div data-role=\"footer\" data-theme=\"a\" data-position=\"fixed\">\n		<h4>Touch and hold travel to edit<br>Swipe left to delete</h4>\n	</div><!-- /footer -->\n	\n	<!-- Add travel popup -->\n	<div data-role=\"popup\" id=\"addTravelPopup\" transition=\"pop\" data-theme=\"a\">\n			<form id=\"addTravelForm\">\n				<div style=\"padding:10px 20px;\">\n				  <h3>Add new Travel</h3>\n		          \n				  <label for=\"tn\" class=\"ui-hidden-accessible\">Travel name:</label>\n				  <input required=true type=\"text\" name=\"title\" id=\"tn\" value=\"\" placeholder=\"Travel name\" data-theme=\"a\">\n\n				  <label for=\"tfrom\" class=\"ui-hidden-accessible\">From:</label>\n		          <input type=\"text\" name=\"from\" id=\"tfrom\" value=\"\" placeholder=\"You travel from\" data-theme=\"a\">\n				  \n				  <label for=\"tto\" class=\"ui-hidden-accessible\">To:</label>\n		          <input type=\"text\" name=\"to\" id=\"tto\" value=\"\" placeholder=\"You travel to\" data-theme=\"a\">\n\n 				  <label for=\"tstart\" class=\"ui-hidden-accessible\">Start date:</label>\n		          <input type=\"date\" name=\"date\" id=\"tstart\" value=\"you start\" placeholder=\"you start\" data-theme=\"a\">\n				  \n		    	  <button type=\"submit\" data-theme=\"b\">Add</button>\n				</div>\n			</form>\n	</div>\n	\n</div><!-- /page one -->\n\n\n<!-- Start of second page: #travelPage -->\n<div data-role=\"page\" id=\"travelPage\" >\n\n	<div data-role=\"header\" data-position=\"fixed\">\n		<a href=\"#\" data-rel=\"back\" data-role=\"button\" data-inline=\"true\" data-icon=\"back\" data-theme=\"a\">Back</a>\n		<h1 class=\"page_title\"></h1>\n	</div><!-- /header -->\n\n	<div data-role=\"content\" id=\"travelPageContent\" data-theme=\"d\">	\n		<a href=\"#editTravelPopup\" data-role=\"button\" data-rel=\"popup\" data-icon=\"edit\">\n			<div>Travel from: <span class=\"country_from\"></span></div>\n			<div>Travel to: <span class=\"country_to\"></span></div>\n			<div>\n				<span class=\"date_from\"></span> - <span class=\"date_to\"></span>\n			</div>\n		</a>\n		<div>\n			<a href=\"#todos\" data-role=\"button\">TODOs (<span class=\"todos_done\"></span> / <span class=\"todos_total\"></span>)</a>\n		</div>\n		<div data-role=\"fieldcontain\">\n			<ul data-role=\"listview\" data-inset=\"true\" id=\"itenaries\">\n				<li><a class=\"intenary_title\" href=\"acura.html\"></a></li>\n			</ul>\n			<a data-icon=\"plus\" data-role=\"button\" href=\"bmw.html\">Add Itenary</a>\n		</div>\n	</div><!-- /content -->\n	\n	<div data-role=\"footer\" data-theme=\"a\" data-position=\"fixed\">\n		<div data-role=\"controlgroup\" data-type=\"horizontal\" align=\"center\">\n			<input type=\"radio\" name=\"radio-choice-2\" id=\"radio-choice-21\" value=\"choice-1\" checked=\"checked\" />\n         	<label for=\"radio-choice-21\">PLAN</label>\n			<a href=\"index.html\" data-role=\"button\">PACK</a>\n			<a href=\"index.html\" data-role=\"button\">GO!</a>\n			<a href=\"index.html\" data-role=\"button\">Keep</a>\n		</div>\n	</div><!-- /footer -->\n\n	<!-- Edit travel popup -->\n	<div data-role=\"popup\" id=\"editTravelPopup\" transition=\"pop\" data-theme=\"a\">\n			<form id=\"editTravelForm\">\n				<div style=\"padding:10px 20px;\">\n				  <h3>Edit Travel</h3>\n		          \n				  <label for=\"tn\" class=\"ui-hidden-accessible\">Travel name:</label>\n				  <input required=true type=\"text\" name=\"title\" id=\"tn\" value=\"\" placeholder=\"Travel name\" data-theme=\"a\">\n\n				  <label for=\"tfrom\" class=\"ui-hidden-accessible\">From:</label>\n		          <input type=\"text\" name=\"from\" id=\"tfrom\" value=\"\" placeholder=\"You travel from\" data-theme=\"a\">\n				  \n				  <label for=\"tto\" class=\"ui-hidden-accessible\">To:</label>\n		          <input type=\"text\" name=\"to\" id=\"tto\" value=\"\" placeholder=\"You travel to\" data-theme=\"a\">\n\n 				  <label for=\"tstart\" class=\"ui-hidden-accessible\">Start date:</label>\n		          <input type=\"date\" name=\"date\" id=\"tstart\" value=\"you start\" placeholder=\"you start\" data-theme=\"a\">\n				  \n		    	  <button type=\"submit\" data-theme=\"b\">Edit</button>\n				</div>\n			</form>\n	</div>\n\n</div><!-- /page travelPage -->\n\n\n\n<!-- Start of third page: #Todo list -->\n<div data-role=\"page\" id=\"todos\">\n	<div data-role=\"header\" data-position=\"fixed\">\n		<a href=\"#\" data-rel=\"back\" data-role=\"button\" data-inline=\"true\" data-icon=\"back\" data-theme=\"a\">Back</a>\n		<h1>Travel 1 - PLAN - TODOs</h1>\n	</div><!-- /header -->\n\n	<div data-role=\"content\" data-theme=\"d\">\n		<div data-role=\"controlgroup\" data-type=\"vertical\" class=\"ui-corner-all ui-controlgroup ui-controlgroup-vertical\">\n				<legend for=\"checkbox-2\"><a href=\"\">asd</a></legend>\n		   		<input type=\"checkbox\" name=\"checkbox-2\" id=\"checkbox-2\" class=\"custom\" />\n		   		<label for=\"checkbox-2\">I agree</label>\n			<label><input type=\"checkbox\" name=\"checkbox-0\" /> Visa </label>\n			<label><input type=\"checkbox\" name=\"checkbox-1\" /> Route </label>\n			<label><input type=\"checkbox\" name=\"checkbox-3\" /> Tickets </label>\n		</div>\n	</div><!-- /content -->\n	\n	<div data-role=\"footer\" data-theme=\"a\" data-position=\"fixed\">\n		<div data-role=\"controlgroup\" data-type=\"horizontal\" align=\"center\">\n			<input type=\"radio\" name=\"radio-choice-2\" id=\"radio-choice-21\" value=\"choice-1\" checked=\"checked\" />\n         	<label for=\"radio-choice-21\">PLAN</label>\n			<a href=\"index.html\" data-role=\"button\">PACK</a>\n			<a href=\"index.html\" data-role=\"button\">GO!</a>\n			<a href=\"index.html\" data-role=\"button\">Keep</a>\n		</div>\n	</div><!-- /footer -->	\n</div>\n\n</body>\n</html>",
+			"file": "index.html",
+			"file_size": 13833,
+			"file_write_time": 130030816261233921,
+			"settings":
+			{
+				"buffer_size": 13413,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Development/WebServers/home/localhost/www/pgsim/WebContent/phonegap/phonegap.js.base",
+			"settings":
+			{
+				"buffer_size": 26843,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/D/Development/WebServers/home/localhost/www/pgsim/WebContent/sim/sim.js",
+			"settings":
+			{
+				"buffer_size": 7154,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/D/Development/WebServers/home/localhost/www/pgsim/WebContent/phonegap.js",
+			"settings":
+			{
+				"buffer_size": 4685,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/D/Development/WebServers/home/localhost/www/pgsim/WebContent/sim.html",
+			"settings":
+			{
+				"buffer_size": 8290,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Z/home/localhost/www/pgsim/WebContent/screens/geolocation.html",
+			"settings":
+			{
+				"buffer_size": 5319,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/D/Development/WebServers/home/localhost/.htaccess",
+			"settings":
+			{
+				"buffer_size": 74,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "DB schema draft",
+			"settings":
+			{
+				"buffer_size": 372,
+				"line_ending": "Windows",
+				"name": "heidisql - gui for sql db mgmt"
+			}
+		},
+		{
+			"file": "travelmate_draft.sql",
+			"settings":
+			{
+				"buffer_size": 1379,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Z/home/localhost/www/travelmate/themes/jquery.mobile-1.2.0.css",
+			"settings":
+			{
+				"buffer_size": 109881,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/D/Development/WebServers/home/localhost/www/pgsim/WebContent/phonegap/storage.js",
+		"/Z/home/localhost/www/travelmate/travels.sql",
+		"/D/Development/WebServers/home/localhost/.__htaccess",
+		"/D/Development/WebServers/home/localhost/www/travelmate/index2.html",
+		"/Z/home/localhost/www/travelmate/index2.html",
+		"/D/Development/WebServers/home/localhost/www/travelmate/index.html",
+		"/D/Development/WebServers/home/localhost/www/pgsim/WebContent/sim.html",
+		"/D/Development/WebServers/home/localhost/.htaccess",
+		"/D/Development/WebServers/home/localhost/www/travelmate/index_static.html",
+		"/D/Development/WebServers/home/localhost/www/travelmate/js/transparency.js",
+		"/D/Development/WebServers/home/localhost/www/travelmate/prototypes/transparency-master/transp-test.html",
+		"/D/Development/WebServers/home/localhost/www/travelmate/prototypes/transparency-master/transparency-master/examples/todo-app/index.html",
+		"/D/Development/WebServers/home/localhost/www/travelmate/.gitignore",
+		"/D/Development/WebServers/home/localhost/www/travelmate/.htaccess",
+		"/C/Users/Alexander/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/Alexander/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"ENGINE=InnoDB ",
+			"travelID_selected",
+			"travels",
+			"two",
+			"two`",
+			"two",
+			"();	",
+			"();\n",
+			"\n	",
+			"render",
+			"\n	",
+			"footer",
+			"\">",
+			"%\">",
+			"visa",
+			"##",
+			"## dnwr_ip 192.168.1.3\n",
+			"add ",
+			"bmw",
+			"aura",
+			"bmw",
+			"for",
+			"class=\"editable\"",
+			"#tw",
+			"form",
+			"none",
+			"beb",
+			"\"w",
+			"3",
+			"\n",
+			"## dnwr_ip 192.168.1.3",
+			"transition",
+			"transitin",
+			"tran",
+			"line",
+			"pack",
+			"line",
+			"pack"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"",
+			"model.travelID_selected"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "index.html",
+					"settings":
+					{
+						"buffer_size": 13413,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6677,
+								6677
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4267.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/D/Development/WebServers/home/localhost/www/pgsim/WebContent/phonegap/phonegap.js.base",
+					"settings":
+					{
+						"buffer_size": 26843,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								26021,
+								26021
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 17200.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/D/Development/WebServers/home/localhost/www/pgsim/WebContent/sim/sim.js",
+					"settings":
+					{
+						"buffer_size": 7154,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5646,
+								5646
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3807.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/D/Development/WebServers/home/localhost/www/pgsim/WebContent/phonegap.js",
+					"settings":
+					{
+						"buffer_size": 4685,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								988,
+								988
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/D/Development/WebServers/home/localhost/www/pgsim/WebContent/sim.html",
+					"settings":
+					{
+						"buffer_size": 8290,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3112,
+								3112
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 587.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/Z/home/localhost/www/pgsim/WebContent/screens/geolocation.html",
+					"settings":
+					{
+						"buffer_size": 5319,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3362,
+								1121
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 100.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/D/Development/WebServers/home/localhost/.htaccess",
+					"settings":
+					{
+						"buffer_size": 74,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								48,
+								48
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "DB schema draft",
+					"settings":
+					{
+						"buffer_size": 372,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								168,
+								168
+							]
+						],
+						"settings":
+						{
+							"auto_name": "heidisql - gui for sql db mgmt",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 20.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "travelmate_draft.sql",
+					"settings":
+					{
+						"buffer_size": 1379,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1379,
+								1379
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/Z/home/localhost/www/travelmate/themes/jquery.mobile-1.2.0.css",
+					"settings":
+					{
+						"buffer_size": 109881,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 38.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 66.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}

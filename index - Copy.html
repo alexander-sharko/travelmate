@@ -1,0 +1,210 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=Unicode"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Travels</title> 
+	<link rel="stylesheet" href="css/jquery.mobile-1.2.0.css" />
+	<link rel="stylesheet" href="css/jquery.mobile.structure-1.2.0.min.css" />
+	<style>
+		/*** patch for jquerymobile page flicker that was happending ***/
+	    .ui-page {
+	        -webkit-backface-visibility: hidden;
+	    }
+
+	    body {
+            /* Setting body margins to 0 to have proper positioning of #container div */
+            margin: 0;
+        }
+ 
+            /* #container div with absolute position and 100% width and height so it takes up whole window */
+        #container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+	</style>
+	
+	<script type="" src="js/jquery-1.8.3.js"></script>
+	<script src="js/transparency.js"></script>  
+	<script>
+		$(document).bind("mobileinit", function(){
+		  
+		  $.mobile.transitionFallbacks.slideout = "none";
+
+		  // Setting #container div as a jqm pageContainer
+          $.mobile.pageContainer = $('#container');
+
+		  $.mobile.defaultPageTransition = "none";
+		  $.mobile.defaultDialogTransition = "none";
+		});
+	</script>
+	<script src="js/jquery.mobile-1.2.0.js"></script>
+	
+	<script>
+	$('#main-page').live('pageinit', function(event){
+		var travels;
+		travels = [
+			{
+				title: "Travel 1",
+				brief: "Going to San Fran",
+				date: "12.06.19"
+			},
+			{
+				title: "Travel 2",
+				brief: "И такие едем куда то",
+				date: "22.06.19"
+			},
+			{
+				title: "Travel 3",
+				brief: "Сэмпл 12"
+			}
+		];
+
+		//render in the travels list
+		$('ul#travels-list').render(travels);
+
+		// append "Add Travel" button
+		$('ul#travels-list').append('<li><a href="#addTravelPopup" data-role="button" data-rel="popup" data-icon="plus">Add Travel</a></li>')
+
+		var currentPage = event.currentTarget;
+   		$(currentPage).trigger('create');
+
+	});
+	</script>
+</head> 
+<body> 
+<!-- Start of first page: #one -->
+<div data-role="page" id="main-page">
+	<div data-role="header">
+		<h1>Travels</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+		<ul id="travels-list" data-role="listview" data-split-theme="d" class="ui-listview">
+			<li>								
+				<a href="#two">
+					<h3 class="title"></h3>
+					<p class="brief"></p>
+					<span class="ui-li-count ui-btn-up-c date"></span>
+				</a>
+			</li>
+		</ul>
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-theme="a" data-position="fixed">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+	
+	<div data-role="popup" id="addTravelPopup" transition="pop" data-theme="a">
+			<form>
+				<div style="padding:10px 20px;">
+				  <h3>Add new Travel</h3>
+		          
+				  <label for="tn" class="ui-hidden-accessible">Travel name:</label>
+				  <input required=true type="text" name="travelname" id="tn" value="" placeholder="Travel name (the only required)" data-theme="a">
+
+				  <label for="tfrom" class="ui-hidden-accessible">From:</label>
+		          <input type="text" name="from" id="tfrom" value="" placeholder="you travel from" data-theme="a">
+				  
+				  <label for="tto" class="ui-hidden-accessible">To:</label>
+		          <input type="text" name="to" id="tto" value="" placeholder="you travel to" data-theme="a">
+
+ 				  <label for="tstart" class="ui-hidden-accessible">Start date:</label>
+		          <input type="date" name="to" id="tstart" value="you start" placeholder="you start" data-theme="a">
+				  
+				  <label for="tend" class="ui-hidden-accessible">Start date:</label>
+		          <input type="date" name="to" id="tend" value="travel ends" placeholder="travel ends" data-theme="a">
+
+		    	  <button type="submit" data-theme="b">Add</button>
+				</div>
+			</form>
+	</div>
+	
+</div><!-- /page one -->
+
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="two" >
+
+	<div data-role="header">
+		<a href="#" data-rel="back" data-role="button" data-inline="true" data-icon="back" data-theme="a">Back</a>
+		<h1>Travel 1</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d">	
+		<div>Travel from: <label for="tfrom">USA</label></div>
+		<div>Travel to: <label for="tfrom">Ukraine</label></div>
+		<div data-role="fieldcontain"><label for="tfrom">20/10/12</label> - <label for="tfrom">20.11.12</label></div>
+		<div data-role="fieldcontain">
+			<a href="#todos" data-role="button">TODOs (15 / 20)</a>
+		</div>
+		<div data-role="fieldcontain">
+			<ul data-role="listview" data-inset="true">
+				<li><a href="acura.html">Itenary 1</a></li>
+				<li data-icon="plus"><a href="bmw.html">Add Itenary</a></li>
+			</ul>
+		</div>
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-theme="a" data-position="fixed">
+		<div data-role="controlgroup" data-type="horizontal" align="center">
+			<input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked" />
+         	<label for="radio-choice-21">PLAN</label>
+			<a href="index.html" data-role="button">PACK</a>
+			<a href="index.html" data-role="button">GO!</a>
+			<a href="index.html" data-role="button">Keep</a>
+		</div>
+	</div><!-- /footer -->
+</div><!-- /page two -->
+
+
+
+<!-- Start of third page: #Todo list -->
+<div data-role="page" id="todos">
+	<div data-role="header">
+		<a href="#" data-rel="back" data-role="button" data-inline="true" data-icon="back" data-theme="a">Back</a>
+		<h1>Travel 1 - PLAN - TODOs</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d">
+		<div data-role="controlgroup" data-type="vertical" class="ui-corner-all ui-controlgroup ui-controlgroup-vertical">
+				<legend for="checkbox-2"><a href="">asd</a></legend>
+		   		<input type="checkbox" name="checkbox-2" id="checkbox-2" class="custom" />
+		   		<label for="checkbox-2">I agree</label>
+			<label><input type="checkbox" name="checkbox-0" /> Visa </label>
+			<label><input type="checkbox" name="checkbox-1" /> Route </label>
+			<label><input type="checkbox" name="checkbox-3" /> Tickets </label>
+		</div>
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-theme="a" data-position="fixed">
+		<div data-role="controlgroup" data-type="horizontal" align="center">
+			<input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked" />
+         	<label for="radio-choice-21">PLAN</label>
+			<a href="index.html" data-role="button">PACK</a>
+			<a href="index.html" data-role="button">GO!</a>
+			<a href="index.html" data-role="button">Keep</a>
+		</div>
+	</div><!-- /footer -->	
+</div>
+
+<!-- Start of third page: #popup -->
+<div data-role="page" id="popup">
+
+	<div data-role="header" data-theme="e">
+		<h1>Dialog</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d">	
+		<h2>Popup</h2>
+		<p>I have an id of "popup" on my page container and only look like a dialog because the link to me had a <code>data-rel="dialog"</code> attribute which gives me this inset look and a <code>data-transition="pop"</code> attribute to change the transition to pop. Without this, I'd be styled as a normal page.</p>		
+		<p><a href="#one" data-rel="back" data-role="button" data-inline="true" data-icon="back">Back to page "one"</a></p>	
+	</div><!-- /content -->
+	
+	<div data-role="footer">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- /page popup -->
+
+</body>
+</html>

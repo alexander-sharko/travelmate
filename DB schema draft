@@ -1,0 +1,41 @@
+heidisql - gui for sql db mgmt
+
+//Travels
+ID
+Title
+Subtitle
+Date_from
+Date_to
+Country_from
+Country_to
+ID_Step
+ID_User // for future multy-user support?
+
+
+//Countries
+ID
+Title
+
+//Steps (PLAN, PACK, GO, KEEP)
+ID
+Title
+
+//TODOs
+ID
+Title
+ID_Travel
+ID_Parent //for nested TODOs lists
+
+//TODO_Tips
+ID
+ID_TODO
+Text
+
+//Itenaries
+ID
+???
+
+//Travels-Itenaries
+ID
+ID_Travel
+ID_Itenary

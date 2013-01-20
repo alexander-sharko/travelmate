@@ -1,0 +1,177 @@
+<mockup version="1.0" skin="sketch" measuredW="2069" measuredH="557" mockupW="2040" mockupH="555">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::iPhone" x="29" y="8" w="-1" h="-1" measuredW="282" measuredH="510" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="62" y="116" w="-1" h="-1" measuredW="215" measuredH="97" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Travel%201%0ATravel%202%0A+%20Add%20travel</text>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::iPhone" x="326" y="8" w="-1" h="-1" measuredW="282" measuredH="510" zOrder="2" locked="false" isInGroup="-1"/>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Alert" x="358" y="150" w="218" h="254" measuredW="200" measuredH="95" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%20%0AAdd%20travel%0AOK</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::TextInput" x="371" y="213" w="192" h="-1" measuredW="52" measuredH="29" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>FROM</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::TextInput" x="371" y="242" w="192" h="-1" measuredW="33" measuredH="29" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>TO</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::iPhone" x="899" y="2" w="282" h="531" measuredW="282" measuredH="510" zOrder="6" locked="false" isInGroup="-1"/>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::StickyNote" x="1196" y="205" w="190" h="102" measuredW="109" measuredH="123" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>User%20can%20touch%20any%20field%20to%20edit%20inline</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::StickyNote" x="624" y="305" w="190" h="114" measuredW="109" measuredH="123" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>on%20select%20popup%20w/list%20of%20countries</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Arrow" x="546" y="258" w="122" h="67" measuredW="150" measuredH="100" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <rightArrow>false</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Arrow" x="546" y="187" w="122" h="43" measuredW="150" measuredH="100" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <curvature>-1</curvature>
+        <direction>bottom</direction>
+        <rightArrow>false</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::Label" x="1008" y="115" w="63" h="25" measuredW="58" measuredH="25" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Travel%201</text>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::TextInput" x="371" y="184" w="192" h="-1" measuredW="95" measuredH="29" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <italic>true</italic>
+        <text>Travel%20Name</text>
+      </controlProperties>
+    </control>
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::Label" x="936" y="167" w="207" h="25" measuredW="44" measuredH="25" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>FROM</text>
+      </controlProperties>
+    </control>
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::Label" x="936" y="192" w="207" h="25" measuredW="25" measuredH="25" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>TO</text>
+      </controlProperties>
+    </control>
+    <control controlID="18" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="929" y="290" w="-1" h="-1" measuredW="215" measuredH="97" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>My%20plane%20ticket%20%0AJenny%20plane%20ticket%0A+%20Add%20ticket%20itenary</text>
+      </controlProperties>
+    </control>
+    <control controlID="20" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="929" y="249" w="-1" h="-1" measuredW="215" measuredH="39" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>TODOs%20%28x/y%20done%29%2C%20%28%3E%29</text>
+      </controlProperties>
+    </control>
+    <control controlID="23" controlTypeID="com.balsamiq.mockups::TextInput" x="371" y="271" w="192" h="-1" measuredW="82" measuredH="29" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Start%20date</text>
+      </controlProperties>
+    </control>
+    <control controlID="24" controlTypeID="com.balsamiq.mockups::TextInput" x="371" y="301" w="192" h="-1" measuredW="132" measuredH="29" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>End%20date%20%28optional%29</text>
+      </controlProperties>
+    </control>
+    <control controlID="25" controlTypeID="com.balsamiq.mockups::Label" x="936" y="217" w="207" h="25" measuredW="81" measuredH="25" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Dates%20x%20-%20y</text>
+      </controlProperties>
+    </control>
+    <control controlID="26" controlTypeID="com.balsamiq.mockups::Arrow" x="1131" y="186" w="122" h="43" measuredW="150" measuredH="100" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <curvature>1</curvature>
+        <direction>top</direction>
+        <rightArrow>false</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="28" controlTypeID="com.balsamiq.mockups::StickyNote" x="653" y="103" w="190" h="139" measuredW="109" measuredH="123" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Proposition%20based%20on%20geolocation%0AIf%20rejected%2C%20list%20of%20countries</text>
+      </controlProperties>
+    </control>
+    <control controlID="29" controlTypeID="com.balsamiq.mockups::iPhone" x="1427" y="2" w="282" h="531" measuredW="282" measuredH="510" zOrder="22" locked="false" isInGroup="-1"/>
+    <control controlID="30" controlTypeID="com.balsamiq.mockups::StickyNote" x="1207" y="433" w="190" h="124" measuredW="109" measuredH="123" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>switches%20ti%20Move%20next%20in%20case%20of%20all%20todo%27s%20are%20there</text>
+      </controlProperties>
+    </control>
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::Arrow" x="1142" y="414" w="122" h="43" measuredW="150" measuredH="100" zOrder="24" locked="false" isInGroup="-1">
+      <controlProperties>
+        <curvature>1</curvature>
+        <direction>top</direction>
+        <rightArrow>false</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="32" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="1460" y="150" w="-1" h="-1" measuredW="215" measuredH="97" zOrder="25" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>v%20Route%20%26%20plans%20%2C%20%28%3E%29%0Av%20Visa%2C%20%28%3E%29%0Av%20Tickets%2C%20%28%3E%29</text>
+      </controlProperties>
+    </control>
+    <control controlID="33" controlTypeID="com.balsamiq.mockups::Label" x="1480" y="116" w="-1" h="-1" measuredW="162" measuredH="25" zOrder="26" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Travel%201%20-%20PLAN%20-%20TODOs</text>
+      </controlProperties>
+    </control>
+    <control controlID="35" controlTypeID="com.balsamiq.mockups::StickyNote" x="1473" y="260" w="190" h="155" measuredW="109" measuredH="123" zOrder="27" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>here%20and%20everywhere%20elase%20when%20user%20checks%20last%20item%2C%20app%20pops%20up%20proposition%20to%20move%20to%20next%20phase</text>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::Arrow" x="1675" y="167" w="122" h="31" measuredW="150" measuredH="100" zOrder="28" locked="false" isInGroup="-1">
+      <controlProperties>
+        <curvature>-1</curvature>
+        <direction>bottom</direction>
+        <rightArrow>false</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::TabBar" x="929" y="404" w="221" h="29" measuredW="262" measuredH="100" zOrder="29" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>0</selectedIndex>
+        <tabVPosition>bottom</tabVPosition>
+        <text>PLAN%2C%20PACK%2C%20GO%2C%20KEEP</text>
+      </controlProperties>
+    </control>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::Paragraph" x="1008" y="140" w="47" h="27" measuredW="200" measuredH="140" zOrder="30" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>PLAN</text>
+      </controlProperties>
+    </control>
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="1797" y="70" w="272" h="-1" measuredW="215" measuredH="97" zOrder="31" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Tips%20and%20steps%20on%20getting%20Visa%20to%20%3CTO%20country%3E%0AAdd%20reminder%0ACheck%20it%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::Arrow" x="1675" y="230" w="122" h="31" measuredW="150" measuredH="100" zOrder="32" locked="false" isInGroup="-1">
+      <controlProperties>
+        <curvature>1</curvature>
+        <direction>top</direction>
+        <rightArrow>false</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="1797" y="258" w="272" h="-1" measuredW="215" measuredH="97" zOrder="33" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add%20your%20itenaries%20here%0AAdd%20reminder%0ACheck%20it%21</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

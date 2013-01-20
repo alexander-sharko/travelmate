@@ -1,0 +1,422 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Travels</title> 
+	<link rel="stylesheet" href="css/jquery.mobile-1.2.0.css" />
+	<link rel="stylesheet" href="css/jquery.mobile.structure-1.2.0.min.css" />
+	<style>
+		/*** patch for jquerymobile page flicker that was happending ***/
+	    .ui-page {
+	        -webkit-backface-visibility: hidden;
+	    }
+
+	    body {
+            /* Setting body margins to 0 to have proper positioning of #container div */
+            margin: 0;
+        }
+ 
+            /* #container div with absolute position and 100% width and height so it takes up whole window */
+        #container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+	</style>
+	
+	<script type="" src="js/jquery-1.8.3.js"></script>
+
+	<script type="text/javascript" src="js/form2js.js"></script>
+	<script type="text/javascript" src="js/jquery.toObject.js"></script>
+	<script type="text/javascript" src="js/transparency.js"></script>  
+	<script type="text/javascript" src="js/phonegap.js"></script>
+	<script>
+		$(document).bind("mobileinit", function(){
+		  
+		  // setting for no page transitions effects by default
+
+		  $.mobile.transitionFallbacks.slideout = "none";
+
+		  // Setting #container div as a jqm pageContainer
+          $.mobile.pageContainer = $('#container');
+
+		  $.mobile.defaultPageTransition = "none";
+		  $.mobile.defaultDialogTransition = "none";
+		});
+	</script>
+
+	<script src="js/jquery.mobile-1.2.0.js"></script>
+	
+	<script>
+	var model = {};
+	model.travels = {};
+	model.travelID_selected = 0;
+
+	function GetTravels(){
+		//##TODO make real function of travels retreiving
+			var fakeTravels = [
+				{
+					title: "Travel 1345345",
+					brief: "Going to San Fran",
+					date: "12.06.19",
+					link_travelID: "0"
+				},
+				{
+					title: "Travel 2",
+					brief: "So here we go",
+					date: "22.06.19",
+					link_travelID: "1"
+
+				},
+				{
+					title: "Travel 3",
+					brief: "Sample 13",
+					date: "22.06.19",
+					link_travelID: "123"
+				}
+			];
+			return fakeTravels;
+	}
+
+	function AddTravel(newTravelObj){
+		//##TODO make real fuction of travel adding
+		// current function will manipulate the travels global var 
+		
+
+		if(!newTravelObj){ console.log('AddTravel: no travel object passed'); return;}
+
+		console.log(newTravelObj);
+		if(!newTravelObj.date)
+			newTravelObj.date = $.now().toString();
+		if (!newTravelObj.brief)
+			newTravelObj.brief = "it will be a great travel";
+		
+
+		model.travels.push(newTravelObj);
+		//##TODO add the travel to DB
+
+		RenderTravels();
+	}
+
+	function RenderTravels(){
+		//render in the travels list
+		$('ul#travels-list').render(model.travels);
+	}
+
+	function DeleteTravel(travelToDelete){
+		//##TODO make travel deletion from DB
+		model.travels.splice(travelToDelete,1);
+		RenderTravels();
+	}
+
+	function RenderTravelPage(pageID){
+		//##TODO retreive data from DB to model about the selected travel
+
+		var fakeTravelPage = {}
+		fakeTravelPage[0] = {
+			page_title:"rendered travel",
+			country_to:"Ukraine",
+			country_from:"UK",
+			date_from:"20/10/13",
+			date_to:"30/10/13",
+			todos_done:"5",
+			todos_total:"40",
+			itenaries: [
+				{intenary_title:"Itenary 1"},
+				{intenary_title:"Itenary 2"},
+				{intenary_title:"Itenary 44"},
+				{intenary_title:"Itenary 50"},
+				{intenary_title:"Itenary 60"}
+			]
+		};
+		fakeTravelPage[1] = {
+			page_title:"some other rendered travel",
+			country_to:"USA",
+			country_from:"Canada",
+			date_from:"21/10/13",
+			date_to:"31/10/13",
+			todos_done:"35",
+			todos_total:"40",
+			itenaries: [
+				{intenary_title:"Itenary 1"},
+				{intenary_title:"Itenary 2"}
+			]
+		};
+
+		$('#travelPage').render(fakeTravelPage[pageID]);
+	}
+
+	$('#main-page').live('pagebeforeshow', function(event){
+		
+		// show initial travels list
+		model.travels = GetTravels();
+		RenderTravels();
+
+		// add new travel on form submit
+		$('#addTravelForm').submit(function(event){
+			event.preventDefault();
+			AddTravel($(this).toObject());
+			$('#addTravelPopup').popup('close');
+			return false;
+		});
+
+   		// set the travelID_selected for corresponding travel page rendering
+   		$('a.openTravelPageLink').click(function(event){
+			model.travelID_selected = parseInt($('> .link_travelID', this).text());
+			//##TODO start corresponding travel info loading from DB
+   		});
+
+   		// link long touch event for deleting the travel from the list
+   		$('a.openTravelPageLink').bind('taphold', function(){
+   			if(confirm('Are you sure you want to deete the travel with all the details?')){
+   				var travelToDelete = parseInt($('> .link_travelID', this).text());
+   				DeleteTravel(travelToDelete);
+   			}
+   		});
+
+	});
+ 	
+	$('#travelPage').live('pagebeforeshow', function(event){
+		console.log('travelPage init')
+		if(!model.travelID_selected)model.travelID_selected = 0;
+		console.log(model.travelID_selected);
+		RenderTravelPage(model.travelID_selected);
+	});
+
+
+
+// pg.js tests
+
+    var deviceReady = false;
+    
+    //-------------------------------------------------------------------------
+    // Location
+    //-------------------------------------------------------------------------
+    var watchLocationId = null;
+
+    /**
+     * Start watching location
+     */
+    var watchLocation = function() {
+        console.log("watchLocation()");
+
+        // Success callback
+        var success = function(p){
+            document.getElementById('latitude').innerHTML = p.coords.latitude;
+            document.getElementById('longitude').innerHTML = p.coords.longitude;
+        };
+
+        // Fail callback
+        var fail = function(e){
+            console.log("watchLocation fail callback with error code "+e);
+            stopLocation();
+        };
+
+        // Get location
+        watchLocationId = navigator.geolocation.watchPosition(success, fail, {enableHighAccuracy: true});
+        setLocationStatus("Running");
+    };
+
+    /**
+     * Stop watching the location
+     */
+    var stopLocation = function() {
+        setLocationStatus("Stopped");
+        if (watchLocationId) {
+            navigator.geolocation.clearWatch(watchLocationId);
+            watchLocationId = null;
+        }
+    };
+
+    /**
+     * Get current location
+     */
+    var getLocation = function() {
+        console.log("getLocation()");
+
+        // Stop location if running
+        stopLocation();
+
+        // Success callback
+        var success = function(p){
+            document.getElementById('latitude').innerHTML = p.coords.latitude;
+            document.getElementById('longitude').innerHTML = p.coords.longitude;
+            setLocationStatus("Done");
+        };
+
+        // Fail callback
+        var fail = function(e){
+            console.log("getLocation fail callback with error code "+e.code);
+            setLocationStatus("Error: "+e.code);
+        };
+
+        // Get location
+        navigator.geolocation.getCurrentPosition(success, fail, {enableHighAccuracy: true}); //, {timeout: 10000});
+        setLocationStatus("Retrieving location...");
+
+    };
+
+    /**
+     * Set location status
+     */
+    var setLocationStatus = function(status) {
+        	//document.getElementById('location_status').innerHTML = status;
+    		console.log('!! Location status = '+status);
+    	};
+
+	$(document).bind('deviceready', function(){
+		getLocation();	
+	});
+    // --------------------------------
+
+
+
+	</script>
+</head>
+<body> 
+<!-- Main page -->
+<div data-role="page" id="main-page">
+	<div data-role="header" data-position="fixed">
+		<h1>Travels</h1>
+	</div><!-- /header -->
+
+	<!-- Main Page content(travels list). Content will be rendered in dynamically -->
+	<div data-role="content">	
+		<ul id="travels-list" data-role="listview" data-split-theme="d" class="ui-listview">
+			<li>								
+				<a class="openTravelPageLink" href="#travelPage">
+					<h3 class="title"></h3>
+					<p class="brief"></p>
+					<span class="ui-li-count ui-btn-up-c date"></span>
+					<span class="link_travelID" style="display:none"></span>
+				</a>
+			</li>
+		</ul>
+		<a href="#addTravelPopup" data-role="button" data-rel="popup" data-icon="plus">Add Travel</a>
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-theme="a" data-position="fixed">
+		<h4>Touch and hold travel to edit<br>Swipe left to delete</h4>
+	</div><!-- /footer -->
+	
+	<!-- Add travel popup -->
+	<div data-role="popup" id="addTravelPopup" transition="pop" data-theme="a">
+			<form id="addTravelForm">
+				<div style="padding:10px 20px;">
+				  <h3>Add new Travel</h3>
+		          
+				  <label for="tn" class="ui-hidden-accessible">Travel name:</label>
+				  <input required=true type="text" name="title" id="tn" value="" placeholder="Travel name" data-theme="a">
+
+				  <label for="tfrom" class="ui-hidden-accessible">From:</label>
+		          <input type="text" name="from" id="tfrom" value="" placeholder="You travel from" data-theme="a">
+				  
+				  <label for="tto" class="ui-hidden-accessible">To:</label>
+		          <input type="text" name="to" id="tto" value="" placeholder="You travel to" data-theme="a">
+
+ 				  <label for="tstart" class="ui-hidden-accessible">Start date:</label>
+		          <input type="date" name="date" id="tstart" value="you start" placeholder="you start" data-theme="a">
+				  
+		    	  <button type="submit" data-theme="b">Add</button>
+				</div>
+			</form>
+	</div>
+	
+</div><!-- /page one -->
+
+
+<!-- Start of second page: #travelPage -->
+<div data-role="page" id="travelPage" >
+
+	<div data-role="header" data-position="fixed">
+		<a href="#" data-rel="back" data-role="button" data-inline="true" data-icon="back" data-theme="a">Back</a>
+		<h1 class="page_title"></h1>
+	</div><!-- /header -->
+
+	<div data-role="content" id="travelPageContent" data-theme="d">	
+		<a href="#editTravelPopup" data-role="button" data-rel="popup" data-icon="edit">
+			<div>Travel from: <span class="country_from"></span></div>
+			<div>Travel to: <span class="country_to"></span></div>
+			<div>
+				<span class="date_from"></span> - <span class="date_to"></span>
+			</div>
+		</a>
+		<div>
+			<a href="#todos" data-role="button">TODOs (<span class="todos_done"></span> / <span class="todos_total"></span>)</a>
+		</div>
+		<div data-role="fieldcontain">
+			<ul data-role="listview" data-inset="true" id="itenaries">
+				<li><a class="intenary_title" href="acura.html"></a></li>
+			</ul>
+			<a data-icon="plus" data-role="button" href="bmw.html">Add Itenary</a>
+		</div>
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-theme="a" data-position="fixed">
+		<div data-role="controlgroup" data-type="horizontal" align="center">
+			<input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked" />
+         	<label for="radio-choice-21">PLAN</label>
+			<a href="index.html" data-role="button">PACK</a>
+			<a href="index.html" data-role="button">GO!</a>
+			<a href="index.html" data-role="button">Keep</a>
+		</div>
+	</div><!-- /footer -->
+
+	<!-- Edit travel popup -->
+	<div data-role="popup" id="editTravelPopup" transition="pop" data-theme="a">
+			<form id="editTravelForm">
+				<div style="padding:10px 20px;">
+				  <h3>Edit Travel</h3>
+		          
+				  <label for="tn" class="ui-hidden-accessible">Travel name:</label>
+				  <input required=true type="text" name="title" id="tn" value="" placeholder="Travel name" data-theme="a">
+
+				  <label for="tfrom" class="ui-hidden-accessible">From:</label>
+		          <input type="text" name="from" id="tfrom" value="" placeholder="You travel from" data-theme="a">
+				  
+				  <label for="tto" class="ui-hidden-accessible">To:</label>
+		          <input type="text" name="to" id="tto" value="" placeholder="You travel to" data-theme="a">
+
+ 				  <label for="tstart" class="ui-hidden-accessible">Start date:</label>
+		          <input type="date" name="date" id="tstart" value="you start" placeholder="you start" data-theme="a">
+				  
+		    	  <button type="submit" data-theme="b">Edit</button>
+				</div>
+			</form>
+	</div>
+
+</div><!-- /page travelPage -->
+
+
+
+<!-- Start of third page: #Todo list -->
+<div data-role="page" id="todos">
+	<div data-role="header" data-position="fixed">
+		<a href="#" data-rel="back" data-role="button" data-inline="true" data-icon="back" data-theme="a">Back</a>
+		<h1>Travel 1 - PLAN - TODOs</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d">
+		<div data-role="controlgroup" data-type="vertical" class="ui-corner-all ui-controlgroup ui-controlgroup-vertical">
+				<legend for="checkbox-2"><a href="">asd</a></legend>
+		   		<input type="checkbox" name="checkbox-2" id="checkbox-2" class="custom" />
+		   		<label for="checkbox-2">I agree</label>
+			<label><input type="checkbox" name="checkbox-0" /> Visa </label>
+			<label><input type="checkbox" name="checkbox-1" /> Route </label>
+			<label><input type="checkbox" name="checkbox-3" /> Tickets </label>
+		</div>
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-theme="a" data-position="fixed">
+		<div data-role="controlgroup" data-type="horizontal" align="center">
+			<input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked" />
+         	<label for="radio-choice-21">PLAN</label>
+			<a href="index.html" data-role="button">PACK</a>
+			<a href="index.html" data-role="button">GO!</a>
+			<a href="index.html" data-role="button">Keep</a>
+		</div>
+	</div><!-- /footer -->	
+</div>
+
+</body>
+</html>
