@@ -29,7 +29,6 @@
 	<script type="text/javascript" src="js/form2js.js"></script>
 	<script type="text/javascript" src="js/jquery.toObject.js"></script>
 	<script type="text/javascript" src="js/transparency.js"></script>  
-	<script type="text/javascript" src="js/phonegap.js"></script>
 	<script>
 		$(document).bind("mobileinit", function(){
 		  
@@ -51,6 +50,10 @@
 	var model = {};
 	model.travels = {};
 	model.travelID_selected = 0;
+
+
+
+//--------------------------------------------------------------------
 
 	function GetTravels(){
 		//##TODO make real function of travels retreiving
@@ -184,92 +187,95 @@
 	});
 
 
+	//=====================================================================================
 
-// pg.js tests
+ var deviceReady = false;
 
-    var deviceReady = false;
-    
     //-------------------------------------------------------------------------
-    // Location
+    // HTML5 Database
     //-------------------------------------------------------------------------
-    var watchLocationId = null;
 
-    /**
-     * Start watching location
-     */
-    var watchLocation = function() {
-        console.log("watchLocation()");
-
-        // Success callback
-        var success = function(p){
-            document.getElementById('latitude').innerHTML = p.coords.latitude;
-            document.getElementById('longitude').innerHTML = p.coords.longitude;
-        };
-
-        // Fail callback
-        var fail = function(e){
-            console.log("watchLocation fail callback with error code "+e);
-            stopLocation();
-        };
-
-        // Get location
-        watchLocationId = navigator.geolocation.watchPosition(success, fail, {enableHighAccuracy: true});
-        setLocationStatus("Running");
-    };
-
-    /**
-     * Stop watching the location
-     */
-    var stopLocation = function() {
-        setLocationStatus("Stopped");
-        if (watchLocationId) {
-            navigator.geolocation.clearWatch(watchLocationId);
-            watchLocationId = null;
+    var db;
+    var callDatabase = function() {
+        db = openDatabase("mydb", "1.0", "PhoneGap Demo", 20000);
+        if (db === null) {
+            databaseOutput("Database could not be opened.");
+            return;
         }
-    };
+        databaseOutput("Database opened.");
 
-    /**
-     * Get current location
-     */
-    var getLocation = function() {
-        console.log("getLocation()");
-
-        // Stop location if running
-        stopLocation();
-
-        // Success callback
-        var success = function(p){
-            document.getElementById('latitude').innerHTML = p.coords.latitude;
-            document.getElementById('longitude').innerHTML = p.coords.longitude;
-            setLocationStatus("Done");
-        };
-
-        // Fail callback
-        var fail = function(e){
-            console.log("getLocation fail callback with error code "+e.code);
-            setLocationStatus("Error: "+e.code);
-        };
-
-        // Get location
-        navigator.geolocation.getCurrentPosition(success, fail, {enableHighAccuracy: true}); //, {timeout: 10000});
-        setLocationStatus("Retrieving location...");
+        db.transaction(populateDB,errorDB,successDB);
 
     };
 
-    /**
-     * Set location status
-     */
-    var setLocationStatus = function(status) {
-        	//document.getElementById('location_status').innerHTML = status;
-    		console.log('!! Location status = '+status);
-    	};
+    function populateDB(tx) {
 
-	$(document).bind('deviceready', function(){
-		getLocation();	
-	});
-    // --------------------------------
+	    // for test mode only
+	    // TODO for the relase - move the work to separated js with localstorage usage for first time runs detection and some more flags
+	     tx.executeSql("DROP TABLE 'countries'");
+	     tx.executeSql("DROP TABLE 'steps'");
+	     tx.executeSql("DROP TABLE 'todos'");
+	     tx.executeSql("DROP TABLE 'travels'");
+	     //-----------
 
+	     tx.executeSql("CREATE TABLE IF NOT EXISTS 'countries' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT)");
+	    
+	     tx.executeSql("INSERT INTO 'countries' ('id','title') VALUES (NULL,'Ukraine')");
+	     tx.executeSql("INSERT INTO 'countries' ('id','title') VALUES (NULL,'USA')");
+	     tx.executeSql("INSERT INTO 'countries' ('id','title') VALUES (NULL,'Canada')");
+	     tx.executeSql("INSERT INTO 'countries' ('id','title') VALUES (NULL,'France')");
+	     
+	     tx.executeSql("CREATE TABLE IF NOT EXISTS 'steps' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT)");
 
+	     tx.executeSql("INSERT INTO 'steps' ('id','title') VALUES (NULL,'Plan')");
+	     tx.executeSql("INSERT INTO 'steps' ('id','title') VALUES (NULL,'Pack')");
+	     tx.executeSql("INSERT INTO 'steps' ('id','title') VALUES (NULL,'GO!')");
+	     tx.executeSql("INSERT INTO 'steps' ('id','title') VALUES (NULL,'Keep')");
+	     
+	     tx.executeSql("CREATE TABLE IF NOT EXISTS 'todos' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT, 'id_travel' INTEGER, ' id_parent' INTEGER)");
+	     
+	     tx.executeSql("CREATE TABLE IF NOT EXISTS 'travels' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT, 'subtitle' TEXT, 'country_from' INTEGER, 'country_to' INTEGER, 'date_from' TEXT, 'date_to' TEXT, 'id_user' INTEGER, 'id_step' INTEGER)");
+	     
+		// fake travel prepopulated to db 
+	     tx.executeSql("INSERT INTO 'travels' ('id','title','subtitle','country_from','country_to','date_from','date_to','id_user','id_step') VALUES (NULL,'Travel from DB 1','This was retreived from sqlite','1','2','2013-01-07','2013-01-14','0','1')");
+	}
+
+	function DB_GetCountries(tx){
+	    tx.executeSql("SELECT * FROM 'countries'", [], querySuccess, errorDB);
+	}
+
+	// Query the success callback
+    //
+    function querySuccess(tx, results) {
+        var len = results.rows.length;
+        console.log("DEMO table: " + len + " rows found.");
+        for (var i=0; i<len; i++){
+            console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Title =  " + results.rows.item(i).title);
+        }
+    }
+
+	// Transaction error callback
+    //
+	function errorDB(err) {
+	    alert("Error processing SQL: "+err.code+" "+err.message);
+	}
+
+	function successDB() {
+	    console.log("success!");
+	    db.transaction(DB_GetCountries,errorDB);
+	}
+
+    var databaseOutput = function(s) {
+        //var el = document.getElementById("database_results");
+        //el.innerHTML = el.innerHTML + s + "<br>";
+        console.log(s);
+    };
+    
+    $(document).bind('deviceready',function(){
+    	callDatabase();
+    });
+
+	//=====================================================================================
 
 	</script>
 </head>
