@@ -4,8 +4,16 @@
 		"selected_items":
 		[
 			[
+				"suc",
+				"successDB"
+			],
+			[
 				"trave",
-				"travels"
+				"travelID"
+			],
+			[
+				"tr",
+				"travel"
 			],
 			[
 				"tra",
@@ -38,10 +46,6 @@
 			[
 				"Fra",
 				"France"
-			],
-			[
-				"suc",
-				"successDB"
 			],
 			[
 				"pu",
@@ -163,7 +167,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 14744,
+				"buffer_size": 14854,
 				"line_ending": "Windows"
 			}
 		},
@@ -188,7 +192,7 @@
 			"file": "travelmate_draft.sqlite.sql",
 			"settings":
 			{
-				"buffer_size": 1226,
+				"buffer_size": 1495,
 				"line_ending": "Unix"
 			}
 		},
@@ -212,7 +216,7 @@
 			"file": "/Z/home/localhost/www/travelmate/themes/jquery.mobile-1.2.0.css",
 			"settings":
 			{
-				"buffer_size": 109881,
+				"buffer_size": 0,
 				"line_ending": "Windows"
 			}
 		}
@@ -282,6 +286,8 @@
 		"find_history":
 		[
 			"\"",
+			"link_travelID",
+			"\"",
 			"\n##",
 			"ENGINE=InnoDB ",
 			"travelID_selected",
@@ -323,7 +329,7 @@
 			"pack"
 		],
 		"highlight": true,
-		"in_selection": true,
+		"in_selection": false,
 		"preserve_case": false,
 		"regex": false,
 		"replace_history":
@@ -349,15 +355,15 @@
 					"file": "index.html",
 					"settings":
 					{
-						"buffer_size": 14744,
+						"buffer_size": 14854,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7767,
-								7776
+								11207,
+								11207
 							]
 						],
 						"settings":
@@ -366,7 +372,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4632.0,
+						"translation.y": 2164.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -429,15 +435,15 @@
 					"file": "travelmate_draft.sqlite.sql",
 					"settings":
 					{
-						"buffer_size": 1226,
+						"buffer_size": 1495,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1000,
-								1226
+								1458,
+								1495
 							]
 						],
 						"settings":
@@ -511,7 +517,7 @@
 					"file": "/Z/home/localhost/www/travelmate/themes/jquery.mobile-1.2.0.css",
 					"settings":
 					{
-						"buffer_size": 109881,
+						"buffer_size": 0,
 						"regions":
 						{
 						},

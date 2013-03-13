@@ -3,8 +3,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<title>Travels</title> 
-	<link rel="stylesheet" href="css/jquery.mobile-1.2.0.css" />
-	<link rel="stylesheet" href="css/jquery.mobile.structure-1.2.0.min.css" />
+	<link rel="stylesheet" href="css/jquery.mobile-1.3.0.min.css" />
+	<!-- <link rel="stylesheet" href="css/themes/travelmate-draft-theme.min.css" /> -->
+	<!-- <link rel="stylesheet" href="css/jquery.mobile.structure-1.2.0.min.css" /> -->
+	<!-- <link rel="stylesheet" href="css/style.css" /> -->
+	<!-- <link rel="stylesheet" href="css/themes/travelmate-draft-theme.min.css" /> -->
+	<link rel="stylesheet" href="css/jquery.mobile.structure-1.3.0.min.css" />
 	<style>
 		/*** patch for jquerymobile page flicker that was happending ***/
 	    .ui-page {
@@ -23,9 +27,10 @@
             height: 100%;
         }
 	</style>
-	
-	<script type="" src="js/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
 
+	<script type="text/javascript" src="js/jquery.mobile-1.3.0.min.js"></script>
+	
 	<script type="text/javascript" src="js/form2js.js"></script>
 	<script type="text/javascript" src="js/jquery.toObject.js"></script>
 	<script type="text/javascript" src="js/transparency.js"></script>  
@@ -43,21 +48,32 @@
 		  $.mobile.defaultDialogTransition = "none";
 		});
 	</script>
+<!--  
+	// <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+	// <script type="text/javascript" src="js/jquery.mobile-1.3.0.min.js"></script>
+-->
 
-	<script src="js/jquery.mobile-1.2.0.js"></script>
-	
 	<script>
 	var model = {};
-	model.travels = {};
+	model.travels = [];
+	model.travelsLoaded = false;
+	model.countries = [];
 	model.travelID_selected = 0;
-
-
 
 //--------------------------------------------------------------------
 
-	function GetTravels(){
+	/*function GetTravels(){
+
+		if(!model.dbReady || !db){
+			console.log('db is not ready for grabbing travels');
+			return [];
+		}
+
+		//db.transaction(DB_GetTravels,errorDB);
+
+
 		//##TODO make real function of travels retreiving
-			var fakeTravels = [
+			/*var fakeTravels = [
 				{
 					title: "Travel 1345345",
 					brief: "Going to San Fran",
@@ -79,7 +95,7 @@
 				}
 			];
 			return fakeTravels;
-	}
+	}*/
 
 	function AddTravel(newTravelObj){
 		//##TODO make real fuction of travel adding
@@ -103,6 +119,7 @@
 
 	function RenderTravels(){
 		//render in the travels list
+		//$.mobile.loading('hide');
 		$('ul#travels-list').render(model.travels);
 	}
 
@@ -151,9 +168,8 @@
 
 	$('#main-page').live('pagebeforeshow', function(event){
 		
-		// show initial travels list
-		model.travels = GetTravels();
-		RenderTravels();
+		if(!db || !model.dbReady || !model.travelsLoaded)
+			$.mobile.loading('show',{text:'Loading travels ...'});
 
 		// add new travel on form submit
 		$('#addTravelForm').submit(function(event){
@@ -180,22 +196,25 @@
 	});
  	
 	$('#travelPage').live('pagebeforeshow', function(event){
-		console.log('travelPage init')
+		/*console.log('travelPage init')
 		if(!model.travelID_selected)model.travelID_selected = 0;
 		console.log(model.travelID_selected);
-		RenderTravelPage(model.travelID_selected);
+		RenderTravelPage(model.travelID_selected);*/
 	});
 
 
 	//=====================================================================================
 
  var deviceReady = false;
+ model.dbReady = false;
+
 
     //-------------------------------------------------------------------------
     // HTML5 Database
     //-------------------------------------------------------------------------
 
     var db;
+    var db_categoryRequested;
     var callDatabase = function() {
         db = openDatabase("mydb", "1.0", "PhoneGap Demo", 20000);
         if (db === null) {
@@ -216,6 +235,7 @@
 	     tx.executeSql("DROP TABLE 'steps'");
 	     tx.executeSql("DROP TABLE 'todos'");
 	     tx.executeSql("DROP TABLE 'travels'");
+
 	     //-----------
 
 	     tx.executeSql("CREATE TABLE IF NOT EXISTS 'countries' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT)");
@@ -232,26 +252,65 @@
 	     tx.executeSql("INSERT INTO 'steps' ('id','title') VALUES (NULL,'GO!')");
 	     tx.executeSql("INSERT INTO 'steps' ('id','title') VALUES (NULL,'Keep')");
 	     
-	     tx.executeSql("CREATE TABLE IF NOT EXISTS 'todos' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT, 'id_travel' INTEGER, ' id_parent' INTEGER)");
+	     tx.executeSql("CREATE TABLE 'todos' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT, 'id_travel' INTEGER, 'id_parent' INTEGER, 'done' INTEGER DEFAULT 0)");
 	     
+	     console.log('todos table created');
 	     tx.executeSql("CREATE TABLE IF NOT EXISTS 'travels' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT, 'subtitle' TEXT, 'country_from' INTEGER, 'country_to' INTEGER, 'date_from' TEXT, 'date_to' TEXT, 'id_user' INTEGER, 'id_step' INTEGER)");
 	     
-		// fake travel prepopulated to db 
+		// fake travel and todos are prepopulated to db 
 	     tx.executeSql("INSERT INTO 'travels' ('id','title','subtitle','country_from','country_to','date_from','date_to','id_user','id_step') VALUES (NULL,'Travel from DB 1','This was retreived from sqlite','1','2','2013-01-07','2013-01-14','0','1')");
+	     tx.executeSql("INSERT INTO 'travels' ('id','title','subtitle','country_from','country_to','date_from','date_to','id_user','id_step') VALUES (NULL,'Another Travel from DB','This also','3','4','2013-01-09','2013-01-25','0','2')");
+
+	     tx.executeSql("INSERT INTO 'todos' ('id','title','id_travel','id_parent','done') VALUES (NULL,'todo 2','1',0,'0')");
+	     tx.executeSql("INSERT INTO 'todos' ('id','title','id_travel','id_parent','done') VALUES (NULL,'todo 1','1',0,'1')");
+	     tx.executeSql("INSERT INTO 'todos' ('id','title','id_travel','id_parent','done') VALUES (NULL,'another todo','2',1,'1')");
 	}
 
 	function DB_GetCountries(tx){
+		db_categoryRequested = model.countries;
 	    tx.executeSql("SELECT * FROM 'countries'", [], querySuccess, errorDB);
+	}
+
+	function DB_GetTravels(tx){
+		tx.executeSql("SELECT t.id, t.title, t.subtitle, t.date_from, t.date_to, count(*) as td_all, count(case when td.done=0 then 1 else NULL end) as td_notdone, c1.title as cfrom, c2.title as cto from travels t LEFT JOIN todos td on td.id_travel = t.id LEFT JOIN countries c1 ON c1.id = t.country_from LEFT JOIN countries c2 ON c2.id = t.country_to GROUP by t.id", [], travelsQuerySuccess, errorDB);
+	}
+
+	function DB_GetTravelDetails(tx){
+		tx.executeSql();
+	}
+
+	function DB_DeleteTravel(tx, travelID){
+		tx.executeSql("DELETE FROM 'travels' WHERE ROWID = "+travelID);
 	}
 
 	// Query the success callback
     //
+    function travelsQuerySuccess(tx, results){
+    	var len = results.rows.length;
+        console.log("DEMO table: " + len + " rows found.");
+        model.travels.length = 0;
+        for (var i=0; i<len; i++){
+            //console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Title =  " + results.rows.item(i).title);
+            
+            // renaming the object ID to be smoothly rendered later to the DOM
+            var travelObj = results.rows.item(i);
+            travelObj.link_travelID = model.travels.length;
+            // adding updated object to the travels list
+            model.travels.push(travelObj);
+        }
+        console.log(model.travels);
+        RenderTravels();
+    }
+
     function querySuccess(tx, results) {
         var len = results.rows.length;
         console.log("DEMO table: " + len + " rows found.");
         for (var i=0; i<len; i++){
             console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Title =  " + results.rows.item(i).title);
+            db_categoryRequested.push(results.rows.item(i));
         }
+        console.log(model.travels[0]);
+        RenderTravels();
     }
 
 	// Transaction error callback
@@ -262,7 +321,8 @@
 
 	function successDB() {
 	    console.log("success!");
-	    db.transaction(DB_GetCountries,errorDB);
+	    model.dbReady = true;
+	    db.transaction(DB_GetTravels,errorDB);
 	}
 
     var databaseOutput = function(s) {
@@ -291,15 +351,15 @@
 		<ul id="travels-list" data-role="listview" data-split-theme="d" class="ui-listview">
 			<li>								
 				<a class="openTravelPageLink" href="#travelPage">
-					<h3 class="title"></h3>
-					<p class="brief"></p>
-					<span class="ui-li-count ui-btn-up-c date"></span>
+					<h3 class="title">Loading travels ...</h3>
+					<p class="subtitle"></p>
+					<span class="ui-li-count ui-btn-up-c date_from">...</span>
 					<span class="link_travelID" style="display:none"></span>
 				</a>
 			</li>
 		</ul>
-		<a href="#addTravelPopup" data-role="button" data-rel="popup" data-icon="plus">Add Travel</a>
 	</div><!-- /content -->
+	<a href="#addTravelPopup" data-role="button" data-rel="popup" data-icon="plus" data-inline="true">Add Travel</a>
 	
 	<div data-role="footer" data-theme="a" data-position="fixed">
 		<h4>Touch and hold travel to edit<br>Swipe left to delete</h4>
