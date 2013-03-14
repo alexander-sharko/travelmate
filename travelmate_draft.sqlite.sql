@@ -58,10 +58,10 @@ on td2.id_travel = t.id AND td2.done = 0
 SELECT t.id, t.title, t.subtitle, t.date_from, t.date_to, 
 count(*) as td_all, 
 count(
-case when td.done=0
+case when td.done=1
 then 1 
 else NULL
-end) as td_notdone,
+end) as td_done,
 c1.title as cfrom, c2.title as cto
 
 from travels t
@@ -77,4 +77,4 @@ ON c2.id = t.country_to
 GROUP by t.id
 
 -------- minified -----
-SELECT t.id, t.title, t.subtitle, t.date_from, t.date_to, count(*) as td_all, count(case when td.done=0 then 1 else NULL end) as td_notdone, c1.title as cfrom, c2.title as cto from travels t LEFT JOIN todos td on td.id_travel = t.id LEFT JOIN countries c1 ON c1.id = t.country_from LEFT JOIN countries c2 ON c2.id = t.country_to GROUP by t.id
+SELECT t.id, t.title, t.subtitle, t.date_from, t.date_to, count(*) as td_all, count(case when td.done=1 then 1 else NULL end) as td_done, c1.title as cfrom, c2.title as cto from travels t LEFT JOIN todos td on td.id_travel = t.id LEFT JOIN countries c1 ON c1.id = t.country_from LEFT JOIN countries c2 ON c2.id = t.country_to GROUP by t.id

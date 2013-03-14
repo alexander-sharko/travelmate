@@ -62,42 +62,7 @@
 
 //--------------------------------------------------------------------
 
-	/*function GetTravels(){
-
-		if(!model.dbReady || !db){
-			console.log('db is not ready for grabbing travels');
-			return [];
-		}
-
-		//db.transaction(DB_GetTravels,errorDB);
-
-
-		//##TODO make real function of travels retreiving
-			/*var fakeTravels = [
-				{
-					title: "Travel 1345345",
-					brief: "Going to San Fran",
-					date: "12.06.19",
-					link_travelID: "0"
-				},
-				{
-					title: "Travel 2",
-					brief: "So here we go",
-					date: "22.06.19",
-					link_travelID: "1"
-
-				},
-				{
-					title: "Travel 3",
-					brief: "Sample 13",
-					date: "22.06.19",
-					link_travelID: "123"
-				}
-			];
-			return fakeTravels;
-	}*/
-
-	function AddTravel(newTravelObj){
+		function AddTravel(newTravelObj){
 		//##TODO make real fuction of travel adding
 		// current function will manipulate the travels global var 
 		
@@ -124,7 +89,10 @@
 	}
 
 	function DeleteTravel(travelToDelete){
-		//##TODO make travel deletion from DB
+		db.travelToDeleteID = model.travels[travelToDelete].id;
+		db.transaction(DB_DeleteTravel,errorDB);
+		//#TODO add the check of failed DB delete query and delete the travel from UI only after successful query
+
 		model.travels.splice(travelToDelete,1);
 		RenderTravels();
 	}
@@ -132,7 +100,7 @@
 	function RenderTravelPage(pageID){
 		//##TODO retreive data from DB to model about the selected travel
 
-		var fakeTravelPage = {}
+		/*var fakeTravelPage = {}
 		fakeTravelPage[0] = {
 			page_title:"rendered travel",
 			country_to:"Ukraine",
@@ -148,29 +116,15 @@
 				{intenary_title:"Itenary 50"},
 				{intenary_title:"Itenary 60"}
 			]
-		};
-		fakeTravelPage[1] = {
-			page_title:"some other rendered travel",
-			country_to:"USA",
-			country_from:"Canada",
-			date_from:"21/10/13",
-			date_to:"31/10/13",
-			todos_done:"35",
-			todos_total:"40",
-			itenaries: [
-				{intenary_title:"Itenary 1"},
-				{intenary_title:"Itenary 2"}
-			]
-		};
-
-		$('#travelPage').render(fakeTravelPage[pageID]);
+		};*/
+		//#TODO add itenaries processing
+		console.log("selected ID "+pageID+". travel selected:");
+		console.log(model.travels[pageID]);
+		$('#travelPage').render(model.travels[pageID]);
 	}
 
 	$('#main-page').live('pagebeforeshow', function(event){
 		
-		if(!db || !model.dbReady || !model.travelsLoaded)
-			$.mobile.loading('show',{text:'Loading travels ...'});
-
 		// add new travel on form submit
 		$('#addTravelForm').submit(function(event){
 			event.preventDefault();
@@ -181,7 +135,9 @@
 
    		// set the travelID_selected for corresponding travel page rendering
    		$('a.openTravelPageLink').click(function(event){
+			console.log('travel click catched');
 			model.travelID_selected = parseInt($('> .link_travelID', this).text());
+
 			//##TODO start corresponding travel info loading from DB
    		});
 
@@ -196,10 +152,9 @@
 	});
  	
 	$('#travelPage').live('pagebeforeshow', function(event){
-		/*console.log('travelPage init')
+		console.log('travelDetailsPage init')
 		if(!model.travelID_selected)model.travelID_selected = 0;
-		console.log(model.travelID_selected);
-		RenderTravelPage(model.travelID_selected);*/
+		RenderTravelPage(model.travelID_selected);
 	});
 
 
@@ -210,12 +165,48 @@
 
 
     //-------------------------------------------------------------------------
-    // HTML5 Database
+    // HTML5 Database and Local Storage
     //-------------------------------------------------------------------------
+
+    var settings;
+    var getSettingsFlag;
+
+    function initSettings(){
+    	settings = localStorage;
+
+    	if(settings === null){
+    		jqmError('Cannot load settings');
+			return;    		
+    	}
+
+    	getSettingsFlag = function(key){
+    		// localStorage for many browsers support only string values type
+    		// which makes the flags boolean cheks to be akward
+    		// this function stripes this out
+
+    		var item = settings.getItem(key);
+    		return typeof item == 'string' ? JSON.parse(item) : item;
+    	}
+
+    	// !!!!!!!!!!!!!!!!!!!!! 
+    	// clean up the settings for debug
+    	//settings.clear();
+
+		if(settings.getItem("set")){
+			console.log('default settings have been set before');			
+			return;
+		}
+		
+		//settings are not set. init...
+		console.log('init settings');
+		settings.setItem("first_run","true");
+		settings.setItem("set","true");
+    }
 
     var db;
     var db_categoryRequested;
-    var callDatabase = function() {
+
+    function callDatabase() {
         db = openDatabase("mydb", "1.0", "PhoneGap Demo", 20000);
         if (db === null) {
             databaseOutput("Database could not be opened.");
@@ -223,20 +214,25 @@
         }
         databaseOutput("Database opened.");
 
-        db.transaction(populateDB,errorDB,successDB);
+    	//var first_run = (settings.getItem('first_run') === "true");
+    	console.log('first_run: '+ getSettingsFlag('first_run'));
+    	if (getSettingsFlag('first_run')) {
+        	db.transaction(populateDB,errorDB,successDB);
+    	} else {
+    		// db was prepopulated on the first app run - no need to re-populate it
+    		successDB();
+    	}
 
     };
 
     function populateDB(tx) {
 
-	    // for test mode only
-	    // TODO for the relase - move the work to separated js with localstorage usage for first time runs detection and some more flags
+    	console.log('prepopulating DB');
+
 	     tx.executeSql("DROP TABLE 'countries'");
 	     tx.executeSql("DROP TABLE 'steps'");
 	     tx.executeSql("DROP TABLE 'todos'");
 	     tx.executeSql("DROP TABLE 'travels'");
-
-	     //-----------
 
 	     tx.executeSql("CREATE TABLE IF NOT EXISTS 'countries' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT)");
 	    
@@ -252,7 +248,7 @@
 	     tx.executeSql("INSERT INTO 'steps' ('id','title') VALUES (NULL,'GO!')");
 	     tx.executeSql("INSERT INTO 'steps' ('id','title') VALUES (NULL,'Keep')");
 	     
-	     tx.executeSql("CREATE TABLE 'todos' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT, 'id_travel' INTEGER, 'id_parent' INTEGER, 'done' INTEGER DEFAULT 0)");
+	     tx.executeSql("CREATE TABLE IF NOT EXISTS 'todos' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT, 'id_travel' INTEGER, 'id_parent' INTEGER, 'done' INTEGER DEFAULT 0)");
 	     
 	     console.log('todos table created');
 	     tx.executeSql("CREATE TABLE IF NOT EXISTS 'travels' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT, 'subtitle' TEXT, 'country_from' INTEGER, 'country_to' INTEGER, 'date_from' TEXT, 'date_to' TEXT, 'id_user' INTEGER, 'id_step' INTEGER)");
@@ -264,35 +260,39 @@
 	     tx.executeSql("INSERT INTO 'todos' ('id','title','id_travel','id_parent','done') VALUES (NULL,'todo 2','1',0,'0')");
 	     tx.executeSql("INSERT INTO 'todos' ('id','title','id_travel','id_parent','done') VALUES (NULL,'todo 1','1',0,'1')");
 	     tx.executeSql("INSERT INTO 'todos' ('id','title','id_travel','id_parent','done') VALUES (NULL,'another todo','2',1,'1')");
+
+	     settings.setItem('first_run', "false");
 	}
 
 	function DB_GetCountries(tx){
 		db_categoryRequested = model.countries;
-	    tx.executeSql("SELECT * FROM 'countries'", [], querySuccess, errorDB);
+	    tx.executeSql("SELECT * FROM 'countries'", [], countriesQuerySuccess, errorDB);
 	}
+
+    // General query success callback
+    //
+    function countriesQuerySuccess(tx, results) {
+        var len = results.rows.length;
+        console.log("countris retreived: " + len);
+        model.countries.length = 0;
+        for (var i=0; i<len; i++){
+            model.countries.push(results.rows.item(i));
+        }
+        console.log(model.countries);
+    }
 
 	function DB_GetTravels(tx){
-		tx.executeSql("SELECT t.id, t.title, t.subtitle, t.date_from, t.date_to, count(*) as td_all, count(case when td.done=0 then 1 else NULL end) as td_notdone, c1.title as cfrom, c2.title as cto from travels t LEFT JOIN todos td on td.id_travel = t.id LEFT JOIN countries c1 ON c1.id = t.country_from LEFT JOIN countries c2 ON c2.id = t.country_to GROUP by t.id", [], travelsQuerySuccess, errorDB);
+		tx.executeSql("SELECT t.id, t.title, t.subtitle, t.date_from, t.date_to, count(*) as td_all, count(case when td.done=1 then 1 else NULL end) as td_done, c1.title as cfrom, c2.title as cto from travels t LEFT JOIN todos td on td.id_travel = t.id LEFT JOIN countries c1 ON c1.id = t.country_from LEFT JOIN countries c2 ON c2.id = t.country_to GROUP by t.id", [], travelsQuerySuccess, errorDB);
 	}
 
-	function DB_GetTravelDetails(tx){
-		tx.executeSql();
-	}
-
-	function DB_DeleteTravel(tx, travelID){
-		tx.executeSql("DELETE FROM 'travels' WHERE ROWID = "+travelID);
-	}
-
-	// Query the success callback
+	// Travels request query success callback
     //
     function travelsQuerySuccess(tx, results){
     	var len = results.rows.length;
-        console.log("DEMO table: " + len + " rows found.");
+        console.log("Travels retreived: " + len);
         model.travels.length = 0;
-        for (var i=0; i<len; i++){
-            //console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Title =  " + results.rows.item(i).title);
-            
-            // renaming the object ID to be smoothly rendered later to the DOM
+        for (var i=0; i<len; i++){         
+            // the saving the travels array index to the field that will be rendered further to HTML ID tag
             var travelObj = results.rows.item(i);
             travelObj.link_travelID = model.travels.length;
             // adding updated object to the travels list
@@ -302,36 +302,44 @@
         RenderTravels();
     }
 
-    function querySuccess(tx, results) {
-        var len = results.rows.length;
-        console.log("DEMO table: " + len + " rows found.");
-        for (var i=0; i<len; i++){
-            console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Title =  " + results.rows.item(i).title);
-            db_categoryRequested.push(results.rows.item(i));
-        }
-        console.log(model.travels[0]);
-        RenderTravels();
-    }
+	function DB_DeleteTravel(tx){
+		tx.executeSql("DELETE FROM 'travels' WHERE ROWID = ?",[db.travelToDeleteID]
+		,function(){
+			console.log('travel was deleted');
+		}
+		,errorDB);
+	}
+
+
 
 	// Transaction error callback
     //
 	function errorDB(err) {
-	    alert("Error processing SQL: "+err.code+" "+err.message);
+	    jqmError("Error processing SQL: "+err.code+" "+err.message, 10000);
+	}
+
+	// error message emulating the jquery default one
+	function jqmError(text, delay){
+		// show error message
+		$.mobile.showPageLoadingMsg( $.mobile.pageLoadErrorMessageTheme, text, true );
+
+		// hide after delay
+		if(!delay)delay = 1500;
+		setTimeout( $.mobile.hidePageLoadingMsg, delay );
 	}
 
 	function successDB() {
-	    console.log("success!");
 	    model.dbReady = true;
 	    db.transaction(DB_GetTravels,errorDB);
+	    db.transaction(DB_GetCountries,errorDB);
 	}
 
     var databaseOutput = function(s) {
-        //var el = document.getElementById("database_results");
-        //el.innerHTML = el.innerHTML + s + "<br>";
         console.log(s);
     };
     
     $(document).bind('deviceready',function(){
+    	initSettings();
     	callDatabase();
     });
 
@@ -359,56 +367,76 @@
 			</li>
 		</ul>
 	</div><!-- /content -->
-	<a href="#addTravelPopup" data-role="button" data-rel="popup" data-icon="plus" data-inline="true">Add Travel</a>
+	<a href="#addTravelPage" data-role="button" data-rel="page" data-icon="plus" data-inline="true">Add Travel</a>
 	
 	<div data-role="footer" data-theme="a" data-position="fixed">
 		<h4>Touch and hold travel to edit<br>Swipe left to delete</h4>
 	</div><!-- /footer -->
 	
-	<!-- Add travel popup -->
-	<div data-role="popup" id="addTravelPopup" transition="pop" data-theme="a">
-			<form id="addTravelForm">
-				<div style="padding:10px 20px;">
-				  <h3>Add new Travel</h3>
-		          
-				  <label for="tn" class="ui-hidden-accessible">Travel name:</label>
-				  <input required=true type="text" name="title" id="tn" value="" placeholder="Travel name" data-theme="a">
-
-				  <label for="tfrom" class="ui-hidden-accessible">From:</label>
-		          <input type="text" name="from" id="tfrom" value="" placeholder="You travel from" data-theme="a">
-				  
-				  <label for="tto" class="ui-hidden-accessible">To:</label>
-		          <input type="text" name="to" id="tto" value="" placeholder="You travel to" data-theme="a">
-
- 				  <label for="tstart" class="ui-hidden-accessible">Start date:</label>
-		          <input type="date" name="date" id="tstart" value="you start" placeholder="you start" data-theme="a">
-				  
-		    	  <button type="submit" data-theme="b">Add</button>
-				</div>
-			</form>
-	</div>
-	
 </div><!-- /page one -->
 
+
+<!-- Add travel page -->
+<div data-role="page" id="addTravelPage">
+
+	<div data-role="header" data-position="fixed">
+		<a href="#" data-rel="back" data-role="button" data-inline="true" data-icon="back" data-theme="a">Back</a>
+		<h1 class="title">Add new Travel</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" id="addTravelPageContent" data-theme="d">
+		<form id="addTravelForm">
+			<div style="padding:10px 20px;">
+			  <h3>Add new Travel</h3>
+	          
+			  <label for="tn" class="ui-hidden-accessible">Travel name:</label>
+			  <input required=true type="text" name="title" id="tn" value="" placeholder="Travel name">
+
+			  <label for="tn" class="ui-hidden-accessible">Short description:</label>
+			  <input type="text" name="title" id="tn" value="" placeholder="Travel name">
+
+			  <label for="tfrom" class="ui-hidden-accessible">From:</label>
+	          <input type="text" name="from" id="tfrom" value="" placeholder="You travel from">
+			  
+			  <label for="tto" class="ui-hidden-accessible">To:</label>
+	          <input type="text" name="to" id="tto" value="" placeholder="You travel to">
+
+			  <label for="tstart" class="ui-hidden-accessible">Start date:</label>
+	          <input type="date" name="date" id="tstart" value="you start" placeholder="you start">
+
+			  <label for="tend" class="ui-hidden-accessible">End date:</label>
+	          <input type="date" name="date" id="tstart" value="You come back" placeholder="You come back">
+			  
+	    	  <button type="submit" data-theme="b">Add</button>
+			</div>
+		</form>
+	</div>
+
+	<div data-role="footer" data-theme="a" data-position="fixed">
+		<h4>Only the travel name and destinition countries are required</h4>
+	</div><!-- /footer -->
+
+</div>
 
 <!-- Start of second page: #travelPage -->
 <div data-role="page" id="travelPage" >
 
 	<div data-role="header" data-position="fixed">
 		<a href="#" data-rel="back" data-role="button" data-inline="true" data-icon="back" data-theme="a">Back</a>
-		<h1 class="page_title"></h1>
+		<h1 class="title"></h1>
 	</div><!-- /header -->
 
-	<div data-role="content" id="travelPageContent" data-theme="d">	
+	<div data-role="content" id="travelPageContent" data-theme="d">
+		<div class="subtitle"></div>	
 		<a href="#editTravelPopup" data-role="button" data-rel="popup" data-icon="edit">
-			<div>Travel from: <span class="country_from"></span></div>
-			<div>Travel to: <span class="country_to"></span></div>
+			<div>Travel from: <span class="cfrom"></span></div>
+			<div>Travel to: <span class="cto"></span></div>
 			<div>
 				<span class="date_from"></span> - <span class="date_to"></span>
 			</div>
 		</a>
 		<div>
-			<a href="#todos" data-role="button">TODOs (<span class="todos_done"></span> / <span class="todos_total"></span>)</a>
+			<a href="#todos" data-role="button">TODOs (<span class="td_done"></span> / <span class="td_all"></span>)</a>
 		</div>
 		<div data-role="fieldcontain">
 			<ul data-role="listview" data-inset="true" id="itenaries">
