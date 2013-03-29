@@ -4,20 +4,132 @@
 		"selected_items":
 		[
 			[
-				"suc",
+				"get",
+				"getItem"
+			],
+			[
+				"fa",
+				"false"
+			],
+			[
+				"succ",
 				"successDB"
 			],
 			[
+				"first",
+				"first_run"
+			],
+			[
+				"fir",
+				"first_run"
+			],
+			[
+				"ge",
+				"getItem"
+			],
+			[
+				"jq",
+				"jqmError"
+			],
+			[
+				"lo",
+				"localstorage"
+			],
+			[
+				"ini",
+				"initSettings"
+			],
+			[
+				"sett",
+				"settings"
+			],
+			[
+				"DB",
+				"DB_GetCountries"
+			],
+			[
+				"tra",
+				"transaction"
+			],
+			[
+				"cou",
+				"countries"
+			],
+			[
+				"re",
+				"return"
+			],
+			[
+				"su",
+				"successDB"
+			],
+			[
+				"ret",
+				"return"
+			],
+			[
+				"transa",
+				"transaction"
+			],
+			[
 				"trave",
-				"travelID"
+				"travels"
+			],
+			[
+				"Travel",
+				"Travels"
+			],
+			[
+				"travel",
+				"travels"
 			],
 			[
 				"tr",
 				"travel"
 			],
 			[
-				"tra",
-				"travels"
+				"mar",
+				"margin-top"
+			],
+			[
+				"padd",
+				"padding-top"
+			],
+			[
+				"le",
+				"length"
+			],
+			[
+				"it",
+				"item"
+			],
+			[
+				"row",
+				"rows"
+			],
+			[
+				"mode",
+				"model"
+			],
+			[
+				"trav",
+				"travelsLoaded"
+			],
+			[
+				"db",
+				"dbReady"
+			],
+			[
+				"co",
+				"console"
+			],
+			[
+				"count",
+				"countries"
+			],
+			[
+				"suc",
+				"successDB"
 			],
 			[
 				"er",
@@ -30,10 +142,6 @@
 			[
 				"err",
 				"errorDB"
-			],
-			[
-				"DB",
-				"DB_GetCountries"
 			],
 			[
 				"tit",
@@ -50,10 +158,6 @@
 			[
 				"pu",
 				"populateDB"
-			],
-			[
-				"get",
-				"getLocation"
 			],
 			[
 				"s",
@@ -80,10 +184,6 @@
 				"rendered"
 			],
 			[
-				"fa",
-				"fakeTravelPage"
-			],
-			[
 				"con",
 				"console"
 			],
@@ -94,10 +194,6 @@
 			[
 				"fake",
 				"fakeTravelPage"
-			],
-			[
-				"re",
-				"render"
 			],
 			[
 				"I",
@@ -120,16 +216,8 @@
 				"country_from"
 			],
 			[
-				"count",
-				"country_to"
-			],
-			[
 				"new",
 				"newTravelObj"
-			],
-			[
-				"lo",
-				"log"
 			],
 			[
 				"pop",
@@ -167,7 +255,23 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 14854,
+				"buffer_size": 19121,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "travelmate_draft.sqlite.sql",
+			"settings":
+			{
+				"buffer_size": 2975,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "css/style.css",
+			"settings":
+			{
+				"buffer_size": 0,
 				"line_ending": "Windows"
 			}
 		},
@@ -186,38 +290,6 @@
 				"buffer_size": 372,
 				"line_ending": "Windows",
 				"name": "heidisql - gui for sql db mgmt"
-			}
-		},
-		{
-			"file": "travelmate_draft.sqlite.sql",
-			"settings":
-			{
-				"buffer_size": 1495,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "travelmate_draft.sql",
-			"settings":
-			{
-				"buffer_size": 1379,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "db/travelmate.2-19-13.dump (1).sql",
-			"settings":
-			{
-				"buffer_size": 774,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Z/home/localhost/www/travelmate/themes/jquery.mobile-1.2.0.css",
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Windows"
 			}
 		}
 	],
@@ -245,8 +317,10 @@
 	},
 	"file_history":
 	[
-		"/D/Development/WebServers/home/localhost/www/travelmate/db/travelmate.2-19-13.dump.sql",
+		"/Z/home/localhost/www/travelmate/themes/jquery.mobile-1.2.0.css",
 		"/D/Development/WebServers/home/localhost/www/travelmate/db/travelmate.2-19-13.dump (1).sql",
+		"/D/Development/WebServers/home/localhost/www/travelmate/travelmate_draft.sql",
+		"/D/Development/WebServers/home/localhost/www/travelmate/db/travelmate.2-19-13.dump.sql",
 		"/Z/home/localhost/www/pgsim/WebContent/screens/storage.html",
 		"/Z/home/localhost/www/pgsim/WebContent/screens/geolocation.html",
 		"/D/Development/WebServers/home/localhost/www/pgsim/WebContent/sim.html",
@@ -282,9 +356,23 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"callDatabase",
+			"first_run",
+			"callDatabase",
+			"databaseOutput",
+			"querySuccess",
+			"DB_GetTravels",
+			"RenderTravelPage",
+			"fake",
+			"RenderTravels",
+			"done",
+			"\"",
+			"live",
+			"add travel",
+			"RenderTravels",
 			"\"",
 			"link_travelID",
 			"\"",
@@ -355,15 +443,15 @@
 					"file": "index.html",
 					"settings":
 					{
-						"buffer_size": 14854,
+						"buffer_size": 19121,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11207,
-								11207
+								12533,
+								12533
 							]
 						],
 						"settings":
@@ -372,13 +460,68 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2164.0,
+						"translation.y": 7096.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "travelmate_draft.sqlite.sql",
+					"settings":
+					{
+						"buffer_size": 2975,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2399,
+								2399
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1180.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "css/style.css",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
 					"file": "/D/Development/WebServers/home/localhost/.htaccess",
 					"settings":
 					{
@@ -404,7 +547,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 4,
 					"file": "DB schema draft",
 					"settings":
 					{
@@ -426,115 +569,6 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 20.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "travelmate_draft.sqlite.sql",
-					"settings":
-					{
-						"buffer_size": 1495,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1458,
-								1495
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "travelmate_draft.sql",
-					"settings":
-					{
-						"buffer_size": 1379,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1,
-								170
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "db/travelmate.2-19-13.dump (1).sql",
-					"settings":
-					{
-						"buffer_size": 774,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/Z/home/localhost/www/travelmate/themes/jquery.mobile-1.2.0.css",
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -588,16 +622,16 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"show_minimap": true,
-	"show_open_files": false,
+	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 150.0,
 	"status_bar_visible": true
 }

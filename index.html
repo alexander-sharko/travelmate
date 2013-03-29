@@ -4,11 +4,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<title>Travels</title> 
 	<link rel="stylesheet" href="css/jquery.mobile-1.3.0.min.css" />
-	<!-- <link rel="stylesheet" href="css/themes/travelmate-draft-theme.min.css" /> -->
-	<!-- <link rel="stylesheet" href="css/jquery.mobile.structure-1.2.0.min.css" /> -->
-	<!-- <link rel="stylesheet" href="css/style.css" /> -->
-	<!-- <link rel="stylesheet" href="css/themes/travelmate-draft-theme.min.css" /> -->
-	<link rel="stylesheet" href="css/jquery.mobile.structure-1.3.0.min.css" />
+	<link rel="stylesheet" href="css/themes/holo/AndroidHoloDarkLight.min.css" />
+	<!-- <link rel="stylesheet" href="jquery.mobile.structure-1.2.0.min.css" /> -->
+	<link rel="stylesheet" href="css/themes/holo/roboto/fonts.css" />
 	<style>
 		/*** patch for jquerymobile page flicker that was happending ***/
 	    .ui-page {
@@ -214,7 +212,6 @@
         }
         databaseOutput("Database opened.");
 
-    	//var first_run = (settings.getItem('first_run') === "true");
     	console.log('first_run: '+ getSettingsFlag('first_run'));
     	if (getSettingsFlag('first_run')) {
         	db.transaction(populateDB,errorDB,successDB);
@@ -350,7 +347,7 @@
 <body> 
 <!-- Main page -->
 <div data-role="page" id="main-page">
-	<div data-role="header" data-position="fixed">
+	<div data-role="header" data-position="fixed" data-theme="b">
 		<h1>Travels</h1>
 	</div><!-- /header -->
 

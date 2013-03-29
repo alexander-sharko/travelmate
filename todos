@@ -1,0 +1,10 @@
+RELESE 0.4
+show list of countries for adding / editing note
+adding note + date picker
+editing note
+split code for reqs and files
+implement sql queries reading the file
+implement recommended sets of todos
+fill in the travel todos from recommended by selected country
+fill in default recommended todos list
+
