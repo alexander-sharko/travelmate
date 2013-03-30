@@ -1,0 +1,221 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Travels</title> 
+
+	<link rel="stylesheet" href="css/jquery.mobile-1.3.0.min.css" />
+	<link rel="stylesheet" href="css/themes/holo/AndroidHoloDarkLight.min.css" />
+	<link rel="stylesheet" href="css/themes/holo/roboto/fonts.css" />
+	<style>
+		/*** patch for jquerymobile page flicker that was happending ***/
+	    .ui-page {
+	        -webkit-backface-visibility: hidden;
+	    }
+
+	    body {
+            /* Setting body margins to 0 to have proper positioning of #container div */
+            margin: 0;
+        }
+ 
+            /* #container div with absolute position and 100% width and height so it takes up whole window */
+        #container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+	</style>
+
+</head>
+<body> 
+<!-- Main page -->
+<div data-role="page" id="main-page">
+	<div data-role="header" data-position="fixed" data-theme="b">
+		<h1>Travels</h1>
+	</div><!-- /header -->
+
+	<!-- Main Page content(travels list). Content will be rendered in dynamically -->
+	<div data-role="content">	
+		<ul id="travels-list" data-role="listview" data-split-theme="d" class="ui-listview">
+			<li>								
+				<a class="openTravelPageLink" href="#travelPage">
+					<h3 class="title">Loading travels ...</h3>
+					<p class="subtitle"></p>
+					<span class="ui-li-count ui-btn-up-c date_from">...</span>
+					<span class="link_travelID" style="display:none"></span>
+				</a>
+			</li>
+		</ul>
+	</div><!-- /content -->
+	<a href="#addTravelPage" data-role="button" data-rel="page" data-icon="plus" data-inline="true">Add Travel</a>
+	
+	<div data-role="footer" data-theme="a" data-position="fixed">
+		<h4>Touch and hold travel to edit<br>Swipe left to delete</h4>
+	</div><!-- /footer -->
+	
+</div><!-- /page one -->
+
+
+<!-- Add travel page -->
+<div data-role="page" id="addTravelPage">
+
+	<div data-role="header" data-position="fixed">
+		<a href="#" data-rel="back" data-role="button" data-inline="true" data-icon="back" data-theme="a">Back</a>
+		<h1 class="title">Add new Travel</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" id="addTravelPageContent" data-theme="d">
+		<form id="addTravelForm">
+			<div style="padding:10px 20px;">
+			  <h3>Add new Travel</h3>
+	          
+			  <label for="tn" class="ui-hidden-accessible">Travel name:</label>
+			  <input required=true type="text" name="title" id="tn" value="" placeholder="Travel name">
+
+			  <label for="tn" class="ui-hidden-accessible">Short description:</label>
+			  <input type="text" name="title" id="tn" value="" placeholder="Travel name">
+
+			  <label for="tfrom" class="ui-hidden-accessible">From:</label>
+	          <input type="text" name="from" id="tfrom" value="" placeholder="You travel from">
+			  
+			  <label for="tto" class="ui-hidden-accessible">To:</label>
+	          <input type="text" name="to" id="tto" value="" placeholder="You travel to">
+
+			  <label for="tstart" class="ui-hidden-accessible">Start date:</label>
+	          <input type="date" name="date" id="tstart" value="you start" placeholder="you start">
+
+			  <label for="tend" class="ui-hidden-accessible">End date:</label>
+	          <input type="date" name="date" id="tstart" value="You come back" placeholder="You come back">
+			  
+	    	  <button type="submit" data-theme="b">Add</button>
+			</div>
+		</form>
+	</div>
+
+	<div data-role="footer" data-theme="a" data-position="fixed">
+		<h4>Only the travel name and destinition countries are required</h4>
+	</div><!-- /footer -->
+
+</div>
+
+<!-- Start of second page: #travelPage -->
+<div data-role="page" id="travelPage" >
+
+	<div data-role="header" data-position="fixed">
+		<a href="#" data-rel="back" data-role="button" data-inline="true" data-icon="back" data-theme="a">Back</a>
+		<h1 class="title"></h1>
+	</div><!-- /header -->
+
+	<div data-role="content" id="travelPageContent" data-theme="d">
+		<div class="subtitle"></div>	
+		<a href="#editTravelPopup" data-role="button" data-rel="popup" data-icon="edit">
+			<div>Travel from: <span class="cfrom"></span></div>
+			<div>Travel to: <span class="cto"></span></div>
+			<div>
+				<span class="date_from"></span> - <span class="date_to"></span>
+			</div>
+		</a>
+		<div>
+			<a href="#todos" data-role="button">TODOs (<span class="td_done"></span> / <span class="td_all"></span>)</a>
+		</div>
+		<div data-role="fieldcontain">
+			<ul data-role="listview" data-inset="true" id="itenaries">
+				<li><a class="intenary_title" href="acura.html"></a></li>
+			</ul>
+			<a data-icon="plus" data-role="button" href="bmw.html">Add Itenary</a>
+		</div>
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-theme="a" data-position="fixed">
+		<div data-role="controlgroup" data-type="horizontal" align="center">
+			<input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked" />
+         	<label for="radio-choice-21">PLAN</label>
+			<a href="index.html" data-role="button">PACK</a>
+			<a href="index.html" data-role="button">GO!</a>
+			<a href="index.html" data-role="button">Keep</a>
+		</div>
+	</div><!-- /footer -->
+
+	<!-- Edit travel popup -->
+	<div data-role="popup" id="editTravelPopup" transition="pop" data-theme="a">
+			<form id="editTravelForm">
+				<div style="padding:10px 20px;">
+				  <h3>Edit Travel</h3>
+		          
+				  <label for="tn" class="ui-hidden-accessible">Travel name:</label>
+				  <input required=true type="text" name="title" id="tn" value="" placeholder="Travel name" data-theme="a">
+
+				  <label for="tfrom" class="ui-hidden-accessible">From:</label>
+		          <input type="text" name="from" id="tfrom" value="" placeholder="You travel from" data-theme="a">
+				  
+				  <label for="tto" class="ui-hidden-accessible">To:</label>
+		          <input type="text" name="to" id="tto" value="" placeholder="You travel to" data-theme="a">
+
+ 				  <label for="tstart" class="ui-hidden-accessible">Start date:</label>
+		          <input type="date" name="date" id="tstart" value="you start" placeholder="you start" data-theme="a">
+				  
+		    	  <button type="submit" data-theme="b">Edit</button>
+				</div>
+			</form>
+	</div>
+
+</div><!-- /page travelPage -->
+
+
+
+<!-- Start of third page: #Todo list -->
+<div data-role="page" id="todos">
+	<div data-role="header" data-position="fixed">
+		<a href="#" data-rel="back" data-role="button" data-inline="true" data-icon="back" data-theme="a">Back</a>
+		<h1>Travel 1 - PLAN - TODOs</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d">
+		<div data-role="controlgroup" data-type="vertical" class="ui-corner-all ui-controlgroup ui-controlgroup-vertical">
+				<legend for="checkbox-2"><a href="">asd</a></legend>
+		   		<input type="checkbox" name="checkbox-2" id="checkbox-2" class="custom" />
+		   		<label for="checkbox-2">I agree</label>
+			<label><input type="checkbox" name="checkbox-0" /> Visa </label>
+			<label><input type="checkbox" name="checkbox-1" /> Route </label>
+			<label><input type="checkbox" name="checkbox-3" /> Tickets </label>
+		</div>
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-theme="a" data-position="fixed">
+		<div data-role="controlgroup" data-type="horizontal" align="center">
+			<input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked" />
+         	<label for="radio-choice-21">PLAN</label>
+			<a href="index.html" data-role="button">PACK</a>
+			<a href="index.html" data-role="button">GO!</a>
+			<a href="index.html" data-role="button">Keep</a>
+		</div>
+	</div><!-- /footer -->	
+</div>
+
+</body>
+
+	<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+
+	<script type="text/javascript" src="js/jquery.mobile-1.3.0.min.js"></script>
+	
+	<script type="text/javascript" src="js/form2js.js"></script>
+	<script type="text/javascript" src="js/jquery.toObject.js"></script>
+	<script type="text/javascript" src="js/transparency.js"></script>  
+	<script>
+		$(document).bind("mobileinit", function(){
+		  
+		  // setting for no page transitions effects by default
+
+		  $.mobile.transitionFallbacks.slideout = "none";
+
+		  // Setting #container div as a jqm pageContainer
+          $.mobile.pageContainer = $('#container');
+
+		  $.mobile.defaultPageTransition = "none";
+		  $.mobile.defaultDialogTransition = "none";
+		});
+	</script>
+	<script type="text/javascript" src="js/travelmate.js"></script>
+	<script type="text/javascript" src="js/travelmate.db.js"></script>
+
+</html>
